@@ -1,15 +1,12 @@
 "use client";
 // Docs: generative-ui/open-generative-ui -> "Drop <CopilotChat /> into the page"
-// (src/app/demos/open-gen-ui/page.tsx). The docs give only the return statement;
-// the "use client", the CopilotKit import and the function wrapper are added so the
-// snippet can run. VISUALIZATION_DESIGN_SKILL and Chat are not in the docs: they
-// are copied from the demo (see README).
-// Adaptations: runtimeUrl "/api/copilotkit-ogui" -> "/api/copilotkit/genui-open-generative-ui";
-// agent "open-gen-ui" -> "genui-open-generative-ui". <CopilotKit> stays in the page, as in the docs.
+// (src/app/demos/open-gen-ui/page.tsx). The docs give only the return statement; "use client",
+// the imports and the function wrapper are added.
+// Adaptations: runtimeUrl -> /api/copilotkit/genui-open-generative-ui; agent -> "genui-open-generative-ui".
+// Removed from the docs snippet: `openGenerativeUI={{ designSkill: VISUALIZATION_DESIGN_SKILL }}`
+// (optional per the docs; VISUALIZATION_DESIGN_SKILL is demo-only, see README).
 
-import { CopilotKit } from "@copilotkit/react-core/v2";
-import { VISUALIZATION_DESIGN_SKILL } from "./_components/design-skill";
-import { Chat } from "./_components/chat";
+import { CopilotKit, CopilotChat } from "@copilotkit/react-core/v2";
 
 export default function Page() {
   // Minimal Open Generative UI frontend: the built-in activity renderer is
@@ -21,7 +18,6 @@ export default function Page() {
     <CopilotKit
       runtimeUrl="/api/copilotkit/genui-open-generative-ui"
       agent="genui-open-generative-ui"
-      openGenerativeUI={{ designSkill: VISUALIZATION_DESIGN_SKILL }}
     >
       <div className="flex justify-center items-center h-screen w-full">
         <div className="h-full w-full max-w-4xl flex flex-col p-3">
@@ -30,4 +26,9 @@ export default function Page() {
       </div>
     </CopilotKit>
   );
+}
+
+// The docs render <Chat /> without defining it ("renders <CopilotChat agentId="open-gen-ui" />").
+function Chat() {
+  return <CopilotChat agentId="genui-open-generative-ui" />;
 }
