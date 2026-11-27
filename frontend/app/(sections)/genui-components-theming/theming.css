@@ -1,0 +1,4 @@
+/* Docs: theming -> "Set variables in CSS", verbatim. The `theme` value wins over it. */
+.a2ui-surface {
+  --a2ui-color-accent: #d97706;
+}
