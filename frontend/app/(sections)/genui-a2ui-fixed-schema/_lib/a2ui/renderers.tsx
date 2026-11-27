@@ -1,20 +1,21 @@
 "use client";
 // Docs: fixed-schema -> "Implement the React renderers" (src/app/demos/a2ui-fixed-schema/a2ui/renderers.tsx).
-// The docs snippet has no imports. Everything above the "Docs snippet" marker is copied from the demo
-// file of the same name (the imports and the `s()` helper the docs prose describes), with the
-// `_components` paths adjusted.
+// The docs snippet has no imports and uses `Card`, `Badge`, `UIButton`, `Separator` and `s()` without
+// defining them. The imports are the demo's; the components are minimal unstyled stand-ins
+// ("Use your own components in their place"); `s()` is the helper the docs prose describes.
 import React from "react";
 import type { CatalogRenderers } from "@copilotkit/a2ui-renderer";
 
 import type { Definitions } from "./definitions";
-import { Card } from "../../_components/card";
-import { Badge } from "../../_components/badge";
-import { Button as UIButton } from "../../_components/button";
-import { Separator } from "../../_components/separator";
 
-// `DynString` props are typed as `string | { path }` (see definitions.ts), but
-// the A2UI binder resolves path bindings before render — renderers only ever
-// see resolved strings. One shared helper keeps that narrowing in one place.
+const Card = (props: React.HTMLAttributes<HTMLDivElement>) => <div {...props} />;
+const Badge = ({
+  variant: _variant,
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement> & { variant?: string }) => <span {...props} />;
+const UIButton = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => <button {...props} />;
+const Separator = (props: React.HTMLAttributes<HTMLDivElement>) => <div {...props} />;
+
 const s = (v: unknown): string => (typeof v === "string" ? v : "");
 
 // ─── Docs snippet (verbatim) ────────────────────────────────────────────────
