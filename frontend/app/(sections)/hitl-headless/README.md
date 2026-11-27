@@ -8,7 +8,7 @@
 
 **Status:** ❌ / 🧩
 - ❌ **The page gives no backend code**, so (following the section rules) the agent is the plain quickstart agent. It has no tool that pauses, so **no interrupt will ever arrive** and none of the three UIs can show a picker. The page assumes the `schedule_meeting` interrupt agent from the `useInterrupt` page but never says so or links to it.
-- 🧩 The main page uses `AppSurface` and `TimeSlotPopup` without defining them, and imports `../_shared/interrupt-fallback-slots`. All of these are copied from the demo.
+- 🧩 The main page uses `AppSurface` and `TimeSlotPopup` without defining them, and imports `../_shared/interrupt-fallback-slots`. Minimal unstyled versions were added.
 - ❌ `HeadlessInterruptPanelRaw` uses `useHeadlessInterrupt` "from the snippet", but the snippet doesn't define it, and neither does the demo.
 
 ## Files
@@ -16,8 +16,8 @@
 |---|---|
 | `agent/sections/hitl-headless.ts` | No backend code in the docs, so this is the quickstart agent |
 | `frontend/app/api/copilotkit/hitl-headless/[[...slug]]/route.ts` | Quickstart runtime (this page doesn't change it) |
-| `page.tsx` | Subscribe to the interrupt yourself (`src/app/demos/interrupt-headless/page.tsx`), plus demo components |
-| `_lib/interrupt-fallback-slots.ts` | Demo code |
+| `page.tsx` | Subscribe to the interrupt yourself (`src/app/demos/interrupt-headless/page.tsx`), plus a minimal `AppSurface` and `TimeSlotPopup` |
+| `_lib/interrupt-fallback-slots.ts` | Minimal `generateFallbackSlots` + `TimeSlot` (imported by the docs) |
 | `panel/page.tsx` | Use `useInterrupt` without the chat (`HeadlessInterruptPanel`) |
 | `panel-raw/page.tsx` | The same panel built on `useHeadlessInterrupt` (`HeadlessInterruptPanelRaw`) |
 | `_lib/slots.ts` | `SLOTS` from the first sample, shared with the second ("SLOTS is the list from the previous sample") |
@@ -29,9 +29,14 @@
 - The panel snippets have no imports or provider. `useCopilotKit`, `useAgent` and `useInterrupt` are imported from `@copilotkit/react-core/v2`, and each panel is rendered as the only child of a provider-only shell.
 
 ## Demo code / stubs
-From `showcase/integrations/strands-typescript/src/app/demos/`:
-- `_shared/interrupt-fallback-slots.ts`: `generateFallbackSlots` and `TimeSlot`.
-- `interrupt-headless/page.tsx`: `AppSurface` (with `ResolvingState` and `EmptyState`) and `TimeSlotPopup`, appended below the docs snippet in `page.tsx`.
+- `page.tsx`, `AppSurface`: `<div>{interruptElement ?? (resolving ? "Confirming…" : null)}</div>`. The docs render `<AppSurface interruptElement resolving />` as the place where the interrupt shows outside the chat.
+- `page.tsx`, `TimeSlotPopup`: plain topic/attendee text, one button per slot (`onPick`) and a Cancel button (`onCancel`). The docs' `render` returns it. It falls back to `generateFallbackSlots()` when the payload has no slots, which is always the case on Strands.
+- `_lib/interrupt-fallback-slots.ts`: a minimal `TimeSlot` + `generateFallbackSlots()` (four upcoming slots), because the docs import them.
+
+## Removed (not needed for functionality)
+- The docs snippet's `useConfigureSuggestions({...})` call and its import (suggestion pills).
+- The demo `AppSurface` header, `ResolvingState` and `EmptyState`, and all styling, test IDs and the one-click latch in `TimeSlotPopup`.
+- The demo's date-math `generateFallbackSlots`, replaced by a short version.
 
 ## Known issues
 - `route.ts`: the usual `HttpAgent is missing ... _threadId, _maxEnforcedEntries` type error (see the quickstart README).
@@ -45,4 +50,4 @@ From `showcase/integrations/strands-typescript/src/app/demos/`:
 
 ## Try these prompts (from the docs)
 - `/panel` and `/panel-raw`: click **Book call** (sends "Book a call with sales."). The docs expect slot buttons to replace it while the agent waits.
-- `/` (main): the suggestion pills `Book an intro call with the sales team to discuss pricing.` and `Schedule a 1:1 with Alice next week to review Q2 goals.`. The docs expect a time-slot popup on the left app surface.
+- `/` (main): type `Book an intro call with the sales team to discuss pricing.` in the chat. The docs expect a time-slot popup on the app surface, outside the chat.
