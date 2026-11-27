@@ -1,0 +1,4 @@
+/* Docs: surfaces -> "Scroll to the surface" (the web CSS for a sticky header). */
+[data-generative-ui-surface] {
+  scroll-margin-top: 6rem;
+}
