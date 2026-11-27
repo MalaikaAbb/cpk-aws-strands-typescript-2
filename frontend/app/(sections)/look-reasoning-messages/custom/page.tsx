@@ -3,12 +3,11 @@
 // The docs put <CopilotKit> in the page, so it stays here.
 // Adaptations: runtimeUrl -> /api/copilotkit/look-reasoning-messages;
 // AGENT_ID "reasoning-custom" -> "look-reasoning-messages".
-// Demo code (showcase reasoning-custom/page.tsx): the imports.
+// Added (needed): the imports (from the demo). The docs' `useReasoningCustomSuggestions()` call is removed.
 
 import type { CopilotChatReasoningMessage } from "@copilotkit/react-core/v2";
 import { CopilotKit, CopilotChat } from "@copilotkit/react-core/v2";
 import { ReasoningBlock } from "../_components/reasoning-block";
-import { useReasoningCustomSuggestions } from "../_components/custom-suggestions";
 
 const AGENT_ID = "look-reasoning-messages";
 
@@ -25,7 +24,6 @@ export default function ReasoningCustomDemo() {
 }
 
 function Chat() {
-  useReasoningCustomSuggestions();
   return (
     <CopilotChat
       agentId={AGENT_ID}
