@@ -2,7 +2,7 @@
 
 **Docs:** https://docs.copilotkit.ai/strands-typescript/generative-ui/components/theming
 **Route:** http://localhost:3000/genui-components-theming
-**Status:** ✅ Everything the React tab needs was provided. The "Try it" chat page is reused, since this page has none. ⚠️ Type errors: the known docs issue, and one *expected* error that checks a docs claim.
+**Status:** ✅ Everything the React tab needs was provided. The "Try it" chat page is reused, since this page has none. ⚠️ One type error, the known docs issue.
 
 ## Files
 | File | Docs step |
@@ -13,7 +13,7 @@
 | `layout.tsx` | "Dark mode" (`colorSchemeScript`), and imports `theming.css` |
 | `theming.css` | "Set variables in CSS" |
 | `_lib/theme.ts` | "The variables" (`GenerativeUITheme` in its own file; not used) |
-| `_lib/map-theme.ts` | "The map" fragment (typed only, not used), plus a check of the documented typo type error |
+| `_lib/map-theme.ts` | "The map" fragment (typed only, not used) |
 | `page.tsx` | Not on this page: "Try it" `<CopilotChat />` |
 
 ## Adaptations
@@ -25,8 +25,10 @@
 ## Demo code / stubs
 None.
 
+## Removed (not needed for functionality)
+- `typoTheme` in `_lib/map-theme.ts`, my own check of the docs claim that `"--a2ui-color-acent"` is a type error. (Before it was removed, it did give that error.)
+
 ## Known issues
-- `_lib/map-theme.ts`: `Object literal may only specify known properties, and '"--a2ui-color-acent"' does not exist in type 'GenerativeUITheme'.` This is **expected**. The docs say this typo "is a type error", and it is. (`typoTheme` is my own one-line check of that claim.)
 - `route.ts`: `Type 'HttpAgent' is missing the following properties from type 'AbstractAgent': _threadId, _maxEnforcedEntries, maxEnforcedEntries`. This is the known `@ag-ui/client` mismatch (see the quickstart README).
 
 ## Open questions
