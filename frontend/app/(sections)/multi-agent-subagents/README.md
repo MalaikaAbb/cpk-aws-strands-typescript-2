@@ -17,17 +17,22 @@
 
 ## Adaptations
 - The agent is `multi-agent-subagents` (the `StrandsAgent` name, the provider, `useAgent`/`CopilotChat` `agentId` and the runtime key). The runtime URL is `/api/copilotkit/multi-agent-subagents`.
-- `tools.ts`: removed `fetch: forwardingFetch` and its comment, as the docs say: "If the excerpt uses a header-forwarding helper, such as `forwardingFetch` ..., leave it out of your app."
+- `tools.ts`: removed `fetch: forwardingFetch` and its comment, as the docs say: "If the excerpt uses a header-forwarding helper, such as `forwardingFetch` ..., leave it out of your app." Also removed `defaultHeaders: { "x-aimock-context": AIMOCK_CONTEXT }` and its comment, because it is aimock test-server plumbing of the same kind and `AIMOCK_CONTEXT` is demo-only.
+- `delegation-log.tsx`: the docs snippet uses `SUB_AGENT_STYLE`, a demo-only styling map, which is not included. The two `const style = SUB_AGENT_STYLE[...]` lines, `${style.color}` and `{style.emoji}` were removed, and `{style.label}` became the sub-agent name (`{subAgent}` / `{d.sub_agent}`).
 - Added well-known imports: `tool` (`@strands-agents/sdk`), `OpenAI` (`openai`, already installed in `agent/`) and `z` (`zod`). Also added the in-section import of `SUBAGENT_FAILURE_MARKER` from `./state.ts`, which `runSubagent` uses.
 - The supervisor's model and system prompt are the quickstart ones (`gpt-6-luna`, `You are a helpful AI assistant.`). Sub-agents use `SUBAGENT_MODEL_ID ?? "gpt-6-luna"`, as in the docs.
 
 ## Demo code / stubs
-From `showcase/integrations/strands-typescript/src/`:
 - `agent/state.ts`: `import type { ToolResultContext, StatePayload } from "@ag-ui/aws-strands"`. The docs use the types without importing them.
-- `agent/model-factory.ts`: `AIMOCK_CONTEXT` (`process.env.AIMOCK_CONTEXT ?? "strands-typescript"`), used in `openaiClient()`'s `defaultHeaders`. It is aimock test-server plumbing, kept only because the docs code references it.
-- `agent/agent.ts`: the `StrandsAgentConfig.toolBehaviors` entries that attach `makeSubagentStateFromResult(...)` to `research_agent`, `writing_agent` and `critique_agent`. Only those three entries were taken.
-- `app/demos/subagents/delegation-log.tsx`: `SubAgentName`, `Delegation`, `DelegationLogProps` and `SUB_AGENT_STYLE`.
-- Not taken: the demo page's `DemoLayout`, `SubAgentActivityCard`, `useRenderTool` renderers, `inferActiveSubAgent`, suggestions and supervisor prompt. The docs don't mention them.
+- `agent/agent.ts`: the `StrandsAgentConfig.toolBehaviors` entries that attach `makeSubagentStateFromResult(...)` to `research_agent`, `writing_agent` and `critique_agent`. Only those three entries were taken. Without them no `delegations` state is emitted and the log stays empty.
+- `app/demos/subagents/delegation-log.tsx`: the `SubAgentName`, `Delegation` and `DelegationLogProps` types that the docs component uses.
+- `page.tsx`: a minimal page from the docs prose (`useAgent` + `DelegationLog` + `<CopilotChat />`). The docs give no page.
+
+## Removed (not needed for functionality)
+- `AIMOCK_CONTEXT` and the `x-aimock-context` default header (aimock test plumbing).
+- `SUB_AGENT_STYLE` (colours, emoji, labels) and its uses in the docs snippet.
+- The `className`s on the minimal page.
+- Not taken in the first place: the demo page's `DemoLayout`, `SubAgentActivityCard`, `useRenderTool` renderers, `inferActiveSubAgent`, suggestions and supervisor prompt.
 
 ## Known issues
 - `route.ts`: the usual `HttpAgent is missing ... _threadId, _maxEnforcedEntries` type error (see the quickstart README).
@@ -41,4 +46,4 @@ From `showcase/integrations/strands-typescript/src/`:
 - The Callout about merging by `id` refers to "the LangGraph excerpt above", which doesn't exist on the Strands page.
 
 ## Try these prompts
-The docs give no literal prompts. Based on the prose ("Research → Write → Critique"), try for example: `Research the history of the bicycle, write a one-paragraph summary, then critique it. Use your sub-agents.` Each delegation should appear in the "Sub-agent delegations" log on the left as it happens, and the indicator chips should light up.
+The docs give no literal prompts. Based on the prose ("Research → Write → Critique"), try for example: `Research the history of the bicycle, write a one-paragraph summary, then critique it. Use your sub-agents.` Each delegation should appear in the "Sub-agent delegations" log as it happens, and the count should go up.

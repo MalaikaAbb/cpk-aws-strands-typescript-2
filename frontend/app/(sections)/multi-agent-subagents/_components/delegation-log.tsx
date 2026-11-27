@@ -1,8 +1,11 @@
 "use client";
 // Docs: multi-agent/subagents -> "Rendering a live delegation log"
 // (src/app/demos/subagents/delegation-log.tsx), below the demo-code block.
-// Demo code: `SubAgentName`, `Delegation`, `DelegationLogProps` and `SUB_AGENT_STYLE` are used
-// but not given by the docs; copied from showcase src/app/demos/subagents/delegation-log.tsx.
+// Demo code: the `SubAgentName`, `Delegation` and `DelegationLogProps` types are used but not
+// given by the docs; copied from showcase src/app/demos/subagents/delegation-log.tsx.
+// Changed in the docs snippet: SUB_AGENT_STYLE (demo-only styling map) is not used. The two
+// `const style = SUB_AGENT_STYLE[...]` lines, `${style.color}` and `{style.emoji}` are removed,
+// and `{style.label}` is replaced by the sub-agent name.
 
 // --- demo code ---
 export type SubAgentName =
@@ -24,29 +27,6 @@ export interface DelegationLogProps {
   isRunning: boolean;
 }
 
-const SUB_AGENT_STYLE: Record<
-  SubAgentName,
-  { label: string; color: string; emoji: string }
-> = {
-  research_agent: {
-    label: "Research",
-    color:
-      "bg-[#BEC2FF1A] text-[#010507] border-[#BEC2FF] dark:text-foreground",
-    emoji: "🔎",
-  },
-  writing_agent: {
-    label: "Writing",
-    color:
-      "bg-[#85ECCE]/15 text-[#189370] border-[#85ECCE4D] dark:text-[#85ECCE]",
-    emoji: "✍️",
-  },
-  critique_agent: {
-    label: "Critique",
-    color:
-      "bg-[#FFAC4D]/12 text-[#010507] border-[#FFAC4D33] dark:text-foreground",
-    emoji: "🧐",
-  },
-};
 
 // --- end demo code ---
 
@@ -110,7 +90,6 @@ export function DelegationLog({ delegations, isRunning }: DelegationLogProps) {
         className="flex items-center gap-2 border-b border-[#E9E9EF] bg-white px-6 py-2 dark:border-border dark:bg-card"
       >
         {INDICATOR_ROLES.map(({ role, subAgent }) => {
-          const style = SUB_AGENT_STYLE[subAgent];
           const fired = calledRoles.has(subAgent);
           return (
             <span
@@ -118,12 +97,11 @@ export function DelegationLog({ delegations, isRunning }: DelegationLogProps) {
               data-testid={`subagent-indicator-${role}`}
               data-role={role}
               data-fired={fired ? "true" : "false"}
-              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.1em] border ${style.color} ${
+              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.1em] border ${
                 fired ? "" : "opacity-60"
               }`}
             >
-              <span aria-hidden>{style.emoji}</span>
-              <span>{style.label}</span>
+              <span>{subAgent}</span>
             </span>
           );
         })}
@@ -137,7 +115,6 @@ export function DelegationLog({ delegations, isRunning }: DelegationLogProps) {
           </p>
         ) : (
           delegations.map((d, idx) => {
-            const style = SUB_AGENT_STYLE[d.sub_agent];
             return (
               <div
                 key={d.id}
@@ -150,10 +127,9 @@ export function DelegationLog({ delegations, isRunning }: DelegationLogProps) {
                       #{idx + 1}
                     </span>
                     <span
-                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.1em] border ${style.color}`}
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.1em] border`}
                     >
-                      <span>{style.emoji}</span>
-                      <span>{style.label}</span>
+                      <span>{d.sub_agent}</span>
                     </span>
                   </div>
                   <span className="text-[10px] uppercase tracking-[0.12em] font-semibold text-[#189370] dark:text-[#85ECCE]">

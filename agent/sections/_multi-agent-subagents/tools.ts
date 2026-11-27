@@ -4,17 +4,12 @@
 // option and its comment.
 // Added imports: `tool` from "@strands-agents/sdk", `OpenAI` from "openai", `z` from "zod";
 // SUBAGENT_FAILURE_MARKER from ./state.ts (runSubagent uses it).
-// Demo code: AIMOCK_CONTEXT is used but not given by the docs; copied from showcase
-// src/agent/model-factory.ts.
+// Also removed (aimock test-server plumbing, like forwardingFetch): the `defaultHeaders:
+// { "x-aimock-context": AIMOCK_CONTEXT }` option and its comment.
 import { tool } from "@strands-agents/sdk";
 import OpenAI from "openai";
 import { z } from "zod";
 import { SUBAGENT_FAILURE_MARKER } from "./state.ts";
-
-// --- demo code (showcase src/agent/model-factory.ts) ---
-export const AIMOCK_CONTEXT =
-  process.env.AIMOCK_CONTEXT ?? "strands-typescript";
-// --- end demo code ---
 
 const SUBAGENT_SYSTEM_PROMPTS: Record<string, string> = {
   research_agent:
@@ -39,8 +34,6 @@ export function openaiClient(): OpenAI {
       ...(process.env.OPENAI_BASE_URL
         ? { baseURL: process.env.OPENAI_BASE_URL }
         : {}),
-      // Match the shared agent so sub-agent calls hit the right aimock fixtures.
-      defaultHeaders: { "x-aimock-context": AIMOCK_CONTEXT },
     });
   }
   return _openaiClient;
