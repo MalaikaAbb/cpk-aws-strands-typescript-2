@@ -1,9 +1,8 @@
 "use client";
 // Docs: shared-state -> "Rendering shared state in the UI" (src/app/demos/shared-state-read-write/notes-card.tsx).
 // Imports and `NotesCardProps` (used but not given by the docs): copied from the same demo file.
-// Card/Button are demo code in ./card.tsx and ./button.tsx ("./_components/*" -> "./*").
+// Card/Button: minimal unstyled stand-ins in ./card.tsx and ./button.tsx ("./_components/*" -> "./*").
 
-import React from "react";
 import {
   Card,
   CardContent,

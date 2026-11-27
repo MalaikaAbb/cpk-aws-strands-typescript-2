@@ -1,8 +1,6 @@
 // Demo code: copied from showcase/integrations/strands-typescript/src/agent/todo-state-sync.ts.
-// The docs subclass `BoardStateStrandsAgent` without defining it. The class (sales-pipeline board
-// sync) depends on `manageTodosImpl` / `BoardTodo` from the demo's `../../shared-tools/todos`,
-// a symlink to showcase/shared/typescript/tools that is NOT in the demo source. That import is
-// left unresolved (see README): this module, and so the agent, fails to load.
+// The docs subclass `BoardStateStrandsAgent` without defining it. Its `manageTodosImpl`/`BoardTodo`
+// dependency is in ./shared-tools/todos.ts (demo code).
 import { AsyncLocalStorage } from "node:async_hooks";
 import { BeforeInvocationEvent } from "@strands-agents/sdk";
 import type { Agent, Plugin } from "@strands-agents/sdk";
