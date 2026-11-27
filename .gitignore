@@ -5,3 +5,7 @@ node_modules
 frontend/next-env.d.ts
 *.tsbuildinfo
 .DS_Store
+
+# Local only: the plan and the report PDF are not committed
+PLAN.md
+*.pdf

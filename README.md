@@ -62,7 +62,6 @@ Each section's README lists its status, adaptations, demo code or stubs, known i
 - A section owns only these paths: `agent/sections/<slug>.ts` (+ `agent/sections/_<slug>/`), `frontend/app/(sections)/<slug>/`, and `frontend/app/api/copilotkit/<slug>/`. The agent server and the index page discover sections automatically, so merging never conflicts.
 - **To update a section,** commit on its branch, then run `git switch main && git merge <slug>`. To merge every branch, run `scripts/merge-all.sh`.
 - **To change shared code** (`agent/server.ts`, `agent/quickstart-agent.ts`, root layout, config, dependencies), change it on `main` only, then run `scripts/sync-branches.sh`.
-- See [PLAN.md](PLAN.md) for the full design and integration rules.
 
 ## Scaffold notes
 - `frontend/` is from `create-next-app@latest` (Next 16). **`cacheComponents` is disabled** in `next.config.ts` (along with `partialPrefetching`, which requires it). With it on, `<CopilotKit>` fails with "unstable value `randomUUID()` in a Client Component" on every page.
