@@ -17,5 +17,5 @@ export default function Page() {
     [navigate],
   );
 
-  return <CopilotSidebar defaultOpen />;
+  return <CopilotSidebar />;
 }

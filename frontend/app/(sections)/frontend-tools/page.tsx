@@ -1,11 +1,10 @@
 "use client";
 // Docs: frontend-tools -> "Register a frontend tool with useFrontendTool"
-// (src/app/demos/frontend-tools/page.tsx). The imports and the `Chat` body up to the end of
-// `useFrontendTool({...})` are verbatim from the docs (the handler is the second snippet).
-// Demo code (showcase frontend-tools/page.tsx): the rest of `Chat` (suggestions call +
-// returned JSX) and the default export with <CopilotKit>; the docs snippet stops mid-function.
-// Adaptations: runtimeUrl -> /api/copilotkit/frontend-tools; agent / agentId
-// "frontend_tools" -> "frontend-tools"; "./background" and "./suggestions" -> ./_components.
+// (src/app/demos/frontend-tools/page.tsx). Verbatim up to the end of `useFrontendTool({...})`,
+// except: `Background` and the `useFrontendToolsSuggestions` import were removed from the
+// docs' imports ("./background" -> "./_components/background").
+// Added (needed): the end of `Chat`, which shows `background` and a chat to ask the agent;
+// the default export. The provider is the quickstart one, in layout.tsx.
 
 import React, { useState } from "react";
 import {
@@ -14,8 +13,7 @@ import {
   useFrontendTool,
 } from "@copilotkit/react-core/v2";
 import { z } from "zod";
-import { Background, DEFAULT_BACKGROUND } from "./_components/background";
-import { useFrontendToolsSuggestions } from "./_components/suggestions";
+import { DEFAULT_BACKGROUND } from "./_components/background";
 
 function Chat() {
   const [background, setBackground] = useState<string>(DEFAULT_BACKGROUND);
@@ -34,21 +32,12 @@ function Chat() {
       return { status: "success" };
     },
   });
-  // --- end of docs snippet; demo code below ---
-
-  useFrontendToolsSuggestions();
 
   return (
-    <Background background={background}>
-      <CopilotSidebar agentId="frontend-tools" defaultOpen />
-    </Background>
+    <div style={{ background, minHeight: "100vh" }}>
+      <CopilotSidebar />
+    </div>
   );
 }
 
-export default function FrontendToolsDemo() {
-  return (
-    <CopilotKit runtimeUrl="/api/copilotkit/frontend-tools" agent="frontend-tools">
-      <Chat />
-    </CopilotKit>
-  );
-}
+export default Chat;
