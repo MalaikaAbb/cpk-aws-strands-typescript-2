@@ -2,8 +2,6 @@
 // Docs: state-and-actions -> "Then give the state its value from your app" (`CartState`) and
 // "Run your code on a click" (`CartActions`), React tabs, verbatim.
 // Added imports: the hooks, `shopUI`, `Cart`.
-// Addition (minimal): `CartSummary`, a readout of the cart, so a click on "Add to cart" can
-// be seen (the docs' ProductCard does not render `inCart`).
 import {
   useGenerativeUIFunction,
   useGenerativeUIState,
@@ -22,8 +20,4 @@ export function CartActions({ cart }: { cart: Cart }) {
     return { added: productId };
   });
   return null;
-}
-
-export function CartSummary({ cart }: { cart: Cart }) {
-  return <pre>cart: {JSON.stringify(cart.items)}</pre>;
 }
