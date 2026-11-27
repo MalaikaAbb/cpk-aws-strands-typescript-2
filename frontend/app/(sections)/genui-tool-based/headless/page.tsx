@@ -51,14 +51,14 @@ export default function Page() {
         onSubmit={(e) => {
           e.preventDefault();
           const trimmed = input.trim();
-          if (!trimmed || agent.isRunning) return;
+          if (!trimmed) return;
           agent.addMessage({ id: crypto.randomUUID(), role: "user", content: trimmed });
           setInput("");
           void copilotkit.runAgent({ agent });
         }}
       >
         <input value={input} onChange={(e) => setInput(e.target.value)} />
-        <button type="submit" disabled={!input.trim() || agent.isRunning}>
+        <button type="submit">
           Send
         </button>
       </form>
