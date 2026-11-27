@@ -1,15 +1,10 @@
 "use client";
-// Docs: shared-state -> "Reading agent state" (useAgent) + "Writing agent state"
-// (handlePreferencesChange), both from src/app/demos/shared-state-read-write/page.tsx, and
-// "Rendering shared state in the UI" (NotesCard).
-// The docs give only the two fragments. From the same demo page (used but not given by the docs):
-// the imports, `RWAgentState`, `INITIAL_PREFERENCES`, the `agentState`/`preferences`/`notes`
-// derivation and `handleClearNotes` (NotesCard's `onClear`). Not copied: the demo's suggestions,
-// initial-state seeding effect, and DemoLayout/PreferencesCard UI.
-// Host additions: <PreferencesEditor> (minimal) and <CopilotSidebar /> (as in quickstart).
-// Adaptation: agentId "shared-state-read-write" -> "shared-state".
+// Docs: shared-state -> "Reading agent state" (useAgent), "Writing agent state" (handlePreferencesChange)
+// and "Rendering shared state in the UI" (NotesCard). The docs give only the two fragments.
+// Needed to run them (from the demo page): `RWAgentState`, `INITIAL_PREFERENCES`, the
+// `preferences`/`notes` derivation, and `handleClearNotes` (NotesCard's required `onClear`).
+// Host: <PreferencesEditor> (minimal) and <CopilotSidebar />. Adaptation: agentId -> "shared-state".
 
-import React from "react";
 import {
   CopilotSidebar,
   useAgent,
@@ -25,10 +20,6 @@ const INITIAL_PREFERENCES: Preferences = {
   interests: [],
 };
 
-// Shape of the bidirectional shared state.
-// - `preferences` is WRITTEN by the UI via agent.setState().
-// - `notes` is WRITTEN by the agent via its `set_notes` tool and READ
-//   by the UI via useAgent().
 interface RWAgentState {
   preferences: Preferences;
   notes: string[];
@@ -58,7 +49,6 @@ export default function Page() {
     } as RWAgentState);
   };
 
-  // WRITE: let the user clear the agent-authored notes from the UI.
   const handleClearNotes = () => {
     agent.setState({ preferences, notes: [] } as RWAgentState);
   };
