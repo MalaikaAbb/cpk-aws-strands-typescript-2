@@ -20,9 +20,9 @@ export default function Page() {
     (agent.state as { delegations?: Delegation[] } | undefined)?.delegations ?? [];
 
   return (
-    <main className="grid h-screen grid-cols-2 gap-4 p-4">
+    <main>
       <DelegationLog delegations={delegations} isRunning={agent.isRunning} />
-      <CopilotChat agentId="multi-agent-subagents" className="h-full" />
+      <CopilotChat agentId="multi-agent-subagents" />
     </main>
   );
 }
