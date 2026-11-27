@@ -3,9 +3,5 @@
 import { Chat } from "./_components/chat";
 
 export default function Page() {
-  return (
-    <main className="h-screen">
-      <Chat />
-    </main>
-  );
+  return <Chat />;
 }
