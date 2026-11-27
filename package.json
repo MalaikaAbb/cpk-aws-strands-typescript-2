@@ -1,0 +1,24 @@
+{
+  "name": "cpk-test",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "agent",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env scripts/dev.mjs",
+    "dev:agent": "npm run dev -w agent",
+    "dev:web": "npm run dev -w frontend",
+    "typecheck": "npm run typecheck -w agent && npm run typecheck -w frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.7"
+  },
+  "allowScripts": {
+    "@hashbrownai/core": false,
+    "@hashbrownai/react": false,
+    "@scarf/scarf": false,
+    "esbuild": false
+  }
+}

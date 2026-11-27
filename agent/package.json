@@ -1,0 +1,30 @@
+{
+  "name": "agent",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx server.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ag-ui/a2ui-toolkit": "^0.0.5",
+    "@ag-ui/aws-strands": "^1.0.2",
+    "@ag-ui/client": "^1.0.2",
+    "@ag-ui/core": "^1.0.5",
+    "@ag-ui/encoder": "^1.0.5",
+    "@anthropic-ai/sdk": "^1.14.0",
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "@strands-agents/sdk": "^1.26.0",
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
+    "openai": "^6.49.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^20.19.43",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  }
+}
