@@ -1,8 +1,2 @@
-// Demo code: `cn` from showcase src/lib/utils.ts (used by the docs' bubble components).
-import { clsx } from "clsx";
-import type { ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+// Minimal `cn` (used by the docs' bubbles, not defined there): joins class names.
+export const cn = (...c: (string | false | null | undefined)[]) => c.filter(Boolean).join(" ");
