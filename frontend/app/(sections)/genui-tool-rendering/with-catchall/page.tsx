@@ -1,10 +1,7 @@
 "use client";
-// Docs: tool-rendering -> "Per-tool renderers compose with a catch-all"
-// (src/app/demos/tool-rendering/page.tsx). The docs give only the hook call; it is combined here
-// with the docs' <ToolRenderers /> (named renderers) under the same provider as app/page.tsx.
-// Host + imports: from the demo page, minus layout divs, suggestions and its extra stock/d20 renderers.
+// Docs: tool-rendering -> "Per-tool renderers compose with a catch-all". The docs give only the hook
+// call; it runs next to the docs' <ToolRenderers /> under a minimal host (<CopilotKit> -> Chat -> <CopilotChat>).
 
-import React from "react";
 import {
   CopilotKit,
   CopilotChat,

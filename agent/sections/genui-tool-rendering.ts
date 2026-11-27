@@ -1,7 +1,7 @@
 // Docs: generative-ui/tool-rendering -> "The backend tool definition" (src/agent/tools.ts),
 // wired into the quickstart main.ts agent (quickstart?agent=bring-your-own, TypeScript).
 // Adaptations: name "strands_agent" -> "genui-tool-rendering"; `app.listen(8000)` -> `export default app`.
-// The docs don't show how the tool is attached; it is passed as `tools: [getWeather]`.
+// The docs don't show how tools are attached: `tools: [getWeather, searchFlights]` (search_flights is not in the docs).
 import { Agent } from "@strands-agents/sdk";
 import { OpenAIModel } from "@strands-agents/sdk/models/openai";
 import { StrandsAgent } from "@ag-ui/aws-strands";
