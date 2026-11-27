@@ -9,9 +9,7 @@ export default function Page() {
   return (
     <CopilotKit runtimeUrl="/api/copilotkit/genui-components-from-a2ui" agent="genui-components-from-a2ui" a2ui={{ catalog: basicCatalogV1 }}>
       {/* Your app */}
-      <main className="h-screen">
-        <CopilotChat />
-      </main>
+      <CopilotChat />
     </CopilotKit>
   );
 }

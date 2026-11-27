@@ -31,6 +31,9 @@
 - None copied. The demo (`src/app/demos/a2ui-fixed-schema/a2ui/renderers.tsx`) has `Airport` and `Arrow`, but as v0.9 a2ui-renderer catalog renderers (`({ props }) => …`, using the demo's `Separator`, no `city`), not as plain React components for `createGenerativeUI`. Minimal `Airport({ code, city })` and `Arrow()` were written in `_components/flight.tsx` instead (allowed: "minimal components referenced but not given").
 - Added imports: `z` from `"zod"` in `_lib/app-ui.tsx` (the "After" catalog uses `z` without importing it); the `Airport` / `Arrow` import. `export { myCatalog }` added to the custom-catalog snippet so the page can use it.
 
+## Removed (not needed for functionality)
+- The `<main className="h-screen">` wrappers around `<CopilotChat />` in all three pages.
+
 ## Known issues (left as the docs have them)
 - `route.ts`: `Type 'HttpAgent' is missing the following properties from type 'AbstractAgent': _threadId, _maxEnforcedEntries, maxEnforcedEntries` — the known `@ag-ui/client` 1.0.2 vs 1.0.5 issue, see the quickstart README.
 - The page itself warns that the `a2ui-v1*` path needs the agent integration to "emit native 1.0 `a2ui_operations`", and that agent tools built with `@ag-ui/a2ui-toolkit` 0.0.5 (which `@ag-ui/aws-strands` uses) write v0.9 operations. Expect the `a2ui-v1*` routes to render nothing, or v0.9 surfaces, with the Strands agent.
