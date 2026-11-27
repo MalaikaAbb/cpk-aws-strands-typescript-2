@@ -13,7 +13,7 @@
 | `surfaces.css` (imported by `layout.tsx`) | "Scroll to the surface" CSS (`scroll-margin-top`) |
 | `providers.tsx`, `layout.tsx` | "When a component fails" (`generativeUI` with `ui: shopUI` + `errorBoundary`) |
 | `catalog.tsx` | Not on this page: `app/catalog.tsx` from the Catalogs page |
-| `_components/ProductRow.tsx` | Minimal addition: `Product`, `ProductRow`, sample products |
+| `_components/ProductRow.tsx` | Minimal addition: `Product`, `ProductRow`, one sample product |
 
 ## Adaptations
 - Agent `default` (implicit) -> `genui-components-surfaces` (`agentId` on the provider, runtime key). `runtimeUrl`/`basePath` -> `/api/copilotkit/genui-components-surfaces`.
@@ -22,8 +22,12 @@
 
 ## Demo code / stubs
 - `catalog.tsx`: not in the demo source. Copied verbatim from generative-ui/components/catalogs -> "Create a catalog" (React).
-- `_components/ProductRow.tsx` (allowed minimal addition): `type Product = { id, name, price }`, three sample products, and a `<ul>` `ProductRow`.
-- The `product` used by the "One target for each item" snippet is the first sample product.
+- `_components/ProductRow.tsx` (needed: the fallback renders `<ProductRow products={products} />`): `type Product = { id, name }`, one sample product, and a plain `<div>` that lists the names. `id`/`name` are needed because the "One target for each item" snippet reads `product.id` and `product.name`.
+- The `product` used by the "One target for each item" snippet is that sample product.
+
+## Removed (not needed for functionality)
+- `price` on `Product`, two of the three sample products, and the `<ul>/<li>` markup of `ProductRow`.
+- The `<main>` wrapper in `page.tsx` (now a fragment).
 
 ## Known issues
 - `route.ts`: `Type 'HttpAgent' is missing the following properties from type 'AbstractAgent': _threadId, _maxEnforcedEntries, maxEnforcedEntries`. This is the known `@ag-ui/client` mismatch (see the quickstart README).
