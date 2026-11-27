@@ -8,9 +8,7 @@ import { Providers } from "./providers";
 export default function Page() {
   return (
     <Providers>
-      <main className="h-screen">
-        <CopilotChat />
-      </main>
+      <CopilotChat />
     </Providers>
   );
 }
