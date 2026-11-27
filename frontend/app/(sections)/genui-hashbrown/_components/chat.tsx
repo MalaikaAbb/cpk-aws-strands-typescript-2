@@ -1,14 +1,12 @@
 "use client";
-// Docs: hashbrown -> chat.tsx (src/app/demos/declarative-hashbrown/chat.tsx), verbatim.
+// Docs: hashbrown -> chat.tsx (src/app/demos/declarative-hashbrown/chat.tsx), verbatim
+// except: the `useByocHashbrownSuggestions()` call and its import are removed (demo suggestions).
 
 import type { CopilotChatAssistantMessage } from "@copilotkit/react-core/v2";
 import { CopilotChat } from "@copilotkit/react-core/v2";
 import { HashBrownRenderMessage } from "./hashbrown-renderer";
-import { useByocHashbrownSuggestions } from "./suggestions";
 
 export function Chat() {
-  useByocHashbrownSuggestions();
-
   return (
     <CopilotChat
       className="h-full"
