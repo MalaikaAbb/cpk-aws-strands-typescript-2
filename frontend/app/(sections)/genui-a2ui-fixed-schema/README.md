@@ -2,15 +2,14 @@
 
 **Docs:** https://docs.copilotkit.ai/strands-typescript/generative-ui/a2ui/fixed-schema
 **Route:** http://localhost:3000/genui-a2ui-fixed-schema
-**Status:** 🧩 Every docs snippet is integrated. The renderers and the agent snippets have no imports, and the renderers use the demo's `Card`, `Badge`, `Button` and `Separator` components and the `s()` helper. Those were copied from the demo. ⚠️ The only type error is the known docs `HttpAgent` one.
+**Status:** 🧩 Every docs snippet is integrated. The renderers and the agent snippets have no imports, and the renderers use `Card`, `Badge`, `UIButton`, `Separator` and `s()` without defining them. The imports come from the demo, and the components are minimal unstyled stand-ins. ⚠️ The only type error is the known docs `HttpAgent` one.
 
 ## Files
 | File | Docs step |
 |---|---|
 | `_lib/a2ui/definitions.ts` | Declare the component definitions (verbatim, plus the demo's `Definitions` type) |
-| `_lib/a2ui/renderers.tsx` | Implement the React renderers (verbatim snippet, demo imports and `s()` above it) |
+| `_lib/a2ui/renderers.tsx` | Implement the React renderers (verbatim snippet; demo imports, minimal `Card`/`Badge`/`UIButton`/`Separator` and `s()` above it) |
 | `_lib/a2ui/catalog.ts` | Wire the catalog (verbatim) |
-| `_components/{card,badge,button,separator}.tsx` | Demo components the renderers use |
 | `agent/sections/_genui-a2ui-fixed-schema/a2ui_schemas/flight_schema.json` | Load the schema JSON at startup (`a2ui_schemas/flight_schema.json`, verbatim) |
 | `agent/sections/_genui-a2ui-fixed-schema/agent.ts` | Load the schema JSON at startup + Return render operations from the tool (`src/agent/agent.ts`) |
 | `agent/sections/genui-a2ui-fixed-schema.ts` | Quickstart `main.ts` with `tools: [displayFlight]` ("the tool drops into whatever agent you already have") |
@@ -22,18 +21,19 @@
 - `src/app/demos/a2ui-fixed-schema/a2ui/*` → `_lib/a2ui/*`; the page imports `./_lib/a2ui/catalog`.
 - `src/agent/agent.ts` → `agent/sections/_genui-a2ui-fixed-schema/agent.ts`, with the JSON in `a2ui_schemas/` next to it (so `_A2UI_DIR` resolves as in the docs).
 - The `display_flight` snippet is indented in the docs, as if it were inside a function. It is dedented, kept at module level and exported, then added to the quickstart agent's `tools`.
-- The page snippet wraps `{children}` in `<CopilotKit>`. A page has no children, so a `<CopilotChat />` takes their place; the component wrapper and the imports were added.
+- The page snippet wraps `{children}` in `<CopilotKit>`. A page has no children, so a `<CopilotChat />` takes their place. The component wrapper and the imports were added.
 - `intelligence` / `identifyUser` dropped from the runtime.
 
 ## Demo code / stubs
-From `showcase/integrations/strands-typescript/src/`:
-- `app/demos/a2ui-fixed-schema/a2ui/renderers.tsx`: the imports (`React`, `CatalogRenderers`, `Definitions`, `Card`, `Badge`, `Button as UIButton`, `Separator`) and the `s()` helper the docs prose describes.
-- `app/demos/a2ui-fixed-schema/a2ui/definitions.ts`: `export type Definitions = typeof definitions;`.
-- `app/demos/a2ui-fixed-schema/_components/{card,badge,button,separator}.tsx`, whole (they are the components themselves).
-- `agent/agent.ts`: the imports of `readFileSync`, `dirname`/`join`, `fileURLToPath`, `tool`, `z`, and `A2UI_OPERATIONS_KEY`/`createSurface`/`updateComponents`/`updateDataModel` from `@ag-ui/a2ui-toolkit`.
+Kept because the docs code fails without it:
+- `_lib/a2ui/renderers.tsx`: the demo's imports (`React`, `CatalogRenderers`, `Definitions`) and the `s()` helper the docs prose describes. `Card` (`<div>`), `Badge` (`<span>`), `UIButton` (`<button>`) and `Separator` (`<div>`) are one-line unstyled stand-ins that pass their props through.
+- `_lib/a2ui/definitions.ts`: `export type Definitions = typeof definitions;` (from the demo).
+- `agent/sections/_genui-a2ui-fixed-schema/agent.ts`: the demo's imports of `readFileSync`, `dirname`/`join`, `fileURLToPath`, `tool`, `z`, and `A2UI_OPERATIONS_KEY`/`createSurface`/`updateComponents`/`updateDataModel` from `@ag-ui/a2ui-toolkit`.
 - `page.tsx`: `"use client"` (the catalog holds render functions, so a server component can't pass it).
 
-Not copied: the demo agent's `A2UI_FIXED_SYSTEM_PROMPT`, its `createModel` factory (it forces the Chat Completions API "so A2UI streaming isn't buffered"), and its chat and suggestions.
+## Removed (not needed for functionality)
+- The demo's `_components/{card,badge,button,separator}.tsx` (styled shadcn clones).
+- The `<main className="h-screen">` wrapper around `<CopilotChat />` in `page.tsx`.
 
 ## Known issues (left as the docs have them)
 - `route.ts`: `Type 'HttpAgent' is missing the following properties from type 'AbstractAgent': _threadId, _maxEnforcedEntries, maxEnforcedEntries` — the known `@ag-ui/client` 1.0.2 vs 1.0.5 issue, see the quickstart README.

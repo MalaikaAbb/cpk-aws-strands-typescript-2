@@ -13,9 +13,7 @@ import { catalog } from "./_lib/a2ui/catalog";
 export default function Page() {
   return (
     <CopilotKit runtimeUrl="/api/copilotkit/genui-a2ui-fixed-schema" agent="genui-a2ui-fixed-schema" a2ui={{ catalog }}>
-      <main className="h-screen">
-        <CopilotChat />
-      </main>
+      <CopilotChat />
     </CopilotKit>
   );
 }
