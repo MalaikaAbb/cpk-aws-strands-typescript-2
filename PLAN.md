@@ -114,7 +114,7 @@ Each section's slug is its docs path flattened with `-`. The slug is also its **
 2. Run `npm install`, then `npm run dev`. This starts the agent on :8000 and Next.js on :3000.
 3. Open `http://localhost:3000`. The index lists the sections on the current branch. Click one and chat.
 - Switching branches: run `git switch <slug>`, then `npm run dev`. Every branch has the same lockfile, so there's nothing to reinstall.
-- Use `next dev` to test. It compiles each route only when you open it, so a section whose docs code is broken (which rule 2 says not to fix) only breaks its own route, never the other sections on `main`.
+- Use `next dev` to test. A section whose docs code fails at **render time** only breaks its own route. A **compile** error (only `shared-state-rendering-in-app` has one) stops the whole dev server until it restarts, on both Turbopack and webpack. That is recorded in that section's README and in the root README.
 
 ## Git workflow
 1. Commit the scaffold (all the shared files plus all dependencies) to `main`, and tag it `scaffold`.
