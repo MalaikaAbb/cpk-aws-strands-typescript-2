@@ -3,10 +3,11 @@
 // (src/app/demos/gen-ui-interrupt/page.tsx).
 // Added: "use client"; `useState` import from "react" (used by the docs, not imported).
 // The docs snippet stops after the useInterrupt(...) call: InterruptChat's `return <CopilotChat />`
-// and closing `}` are copied from the demo page.
+// and closing `}` are added.
+// Removed from the docs snippet: the `./suggestions` import and the useGenUiInterruptSuggestions() call.
 // Adaptations: runtimeUrl -> /api/copilotkit/hitl-use-interrupt; agent / agentId "gen-ui-interrupt"
 // -> "hitl-use-interrupt"; "../_shared/interrupt-fallback-slots" -> "./_lib/interrupt-fallback-slots";
-// "./suggestions" -> "./_components/suggestions". <CopilotKit> stays in the page, as in the docs.
+// <CopilotKit> stays in the page, as in the docs.
 import { useState } from "react";
 import {
   CopilotKit,
@@ -16,7 +17,6 @@ import {
 import type { TimeSlot } from "./_components/time-picker-card";
 import { TimePickerCard } from "./_components/time-picker-card";
 import { generateFallbackSlots } from "./_lib/interrupt-fallback-slots";
-import { useGenUiInterruptSuggestions } from "./_components/suggestions";
 
 // Shape the backend `schedule_meeting` tool pauses with: its `interrupt()`
 // `reason` payload. `slots` is absent on the Strands path (the tool passes only
@@ -124,8 +124,6 @@ function InterruptChat({
 }: {
   setResumeFailed: (failed: boolean) => void;
 }) {
-  useGenUiInterruptSuggestions();
-
   // Native interrupt path. The backend `schedule_meeting` tool calls Strands'
   // `context.interrupt(...)`; the @ag-ui/aws-strands bridge finishes the run
   // with `outcome.type === "interrupt"`. Where the tool's `reason` travels
@@ -169,9 +167,5 @@ function InterruptChat({
     },
   });
 
-  // --- end of docs snippet; the lines below are from the demo page ---
-
-  return (
-    <CopilotChat agentId="hitl-use-interrupt" className="h-full rounded-2xl" />
-  );
+  return <CopilotChat agentId="hitl-use-interrupt" />;
 }
