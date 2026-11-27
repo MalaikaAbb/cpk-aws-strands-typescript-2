@@ -7,10 +7,10 @@ import { GovernedActionTool } from "./_components/governed-action-tool";
 
 export default function Page() {
   return (
-    <main className="h-screen">
+    <main>
       <GovernedActionApproval />
       <GovernedActionTool />
-      <CopilotChat className="h-full" />
+      <CopilotChat />
     </main>
   );
 }

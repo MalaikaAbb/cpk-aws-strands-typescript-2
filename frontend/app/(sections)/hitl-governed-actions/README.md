@@ -25,6 +25,9 @@
 ## Demo code / stubs
 None. There is no governed-actions demo in the showcase. The Python `deliver_email` ("your own email client") belongs to the skipped Python backend.
 
+## Removed (not needed for functionality)
+- The `className`s on the minimal page's `<main>` and `<CopilotChat>`.
+
 ## Known issues
 - `route.ts`: the usual `HttpAgent is missing ... _threadId, _maxEnforcedEntries` type error (see the quickstart README).
 - `governed-action-approval.tsx(22,5)`: `Type '({ event, interrupt, resolve, cancel }: InterruptRenderProps<any, null>) => Element | null' is not assignable to type '(props: InterruptRenderProps<any, null>) => ReactElement<...>'. Type 'null' is not assignable to type 'ReactElement<...>'.` The docs' `render` returns `null` when there is no action, but `useInterrupt`'s `render` type doesn't allow `null`. This is a docs bug. It works at runtime.
