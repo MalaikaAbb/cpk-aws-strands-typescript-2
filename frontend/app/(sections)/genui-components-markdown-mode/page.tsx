@@ -1,12 +1,7 @@
 "use client";
-// The docs give no page. Minimal chat to exercise markdown mode ("The chat renders each
-// block as a live surface").
+// The docs give no page. A chat to exercise markdown mode.
 import { CopilotChat } from "@copilotkit/react-core/v2";
 
 export default function Page() {
-  return (
-    <main className="h-screen">
-      <CopilotChat />
-    </main>
-  );
+  return <CopilotChat />;
 }
