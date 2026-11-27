@@ -3,18 +3,17 @@
 // (src/app/demos/open-gen-ui-advanced/page.tsx).
 // The docs snippet stops before the closing `);` and `}` of the component, and is followed
 // in the same code block by a second copy of sandbox-functions.ts (see README, Open questions).
-// The closing `);` + `}` and the `Chat` function are copied from the demo page.
+// The closing `);` + `}` and a minimal `Chat` (used by the docs, not defined) are added.
 // Adaptations: runtimeUrl "/api/copilotkit-ogui" -> "/api/copilotkit/genui-open-generative-ui";
 // agent "open-gen-ui-advanced" -> "genui-open-generative-ui-advanced"; "./sandbox-functions"
-// and "./suggestions" -> "./_components/...". "use client" added (hooks + provider).
+// -> "./_components/sandbox-functions". "use client" added.
+// Removed from the docs snippet: `useConfigureSuggestions` and the `./suggestions` import (suggestions).
 import React from "react";
 import {
   CopilotKit,
   CopilotChat,
-  useConfigureSuggestions,
 } from "@copilotkit/react-core/v2";
 import { openGenUiSandboxFunctions } from "./_components/sandbox-functions";
-import { openGenUiSuggestions } from "./_components/suggestions";
 
 // Imperative design skill for the advanced cell. Without a designSkill the
 // provider injects DEFAULT_DESIGN_SKILL, which never tells the model to CALL
@@ -45,24 +44,9 @@ export default function OpenGenUiAdvancedDemo() {
         </div>
       </div>
     </CopilotKit>
-    // --- end of docs snippet; the lines below are from the demo page ---
   );
 }
 
-// Demo code: copied from showcase src/app/demos/open-gen-ui-advanced/page.tsx
-// (the docs render <Chat /> but never define it). agentId adapted.
 function Chat() {
-  useConfigureSuggestions({
-    suggestions: openGenUiSuggestions,
-    available: "always",
-  });
-
-  return (
-    <div className="flex h-full w-full flex-col p-3">
-      <CopilotChat
-        agentId="genui-open-generative-ui-advanced"
-        className="flex-1 rounded-2xl"
-      />
-    </div>
-  );
+  return <CopilotChat agentId="genui-open-generative-ui-advanced" />;
 }
