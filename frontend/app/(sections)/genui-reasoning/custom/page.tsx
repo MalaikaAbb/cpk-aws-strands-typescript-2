@@ -4,12 +4,11 @@
 // Adaptations: runtimeUrl -> /api/copilotkit/genui-reasoning;
 // AGENT_ID "reasoning-custom" -> "genui-reasoning".
 // Import paths adjusted: ReasoningBlock lives in ../_components.
-// Demo code: the `useReasoningCustomSuggestions` import (showcase reasoning-custom/page.tsx).
+// The docs' `useReasoningCustomSuggestions()` call is removed.
 
 import type { CopilotChatReasoningMessage } from "@copilotkit/react-core/v2";
 import { CopilotKit, CopilotChat } from "@copilotkit/react-core/v2";
 import { ReasoningBlock } from "../_components/reasoning-block";
-import { useReasoningCustomSuggestions } from "../_components/custom-suggestions";
 
 const AGENT_ID = "genui-reasoning";
 
@@ -26,7 +25,6 @@ export default function ReasoningCustomDemo() {
 }
 
 function Chat() {
-  useReasoningCustomSuggestions();
   return (
     <CopilotChat
       agentId={AGENT_ID}
