@@ -1,0 +1,47 @@
+/* Docs: custom-look-and-feel/css -> every `globals.css` snippet on the page, verbatim, in order.
+ * Section CSS file imported by this section's layout.tsx (the root globals.css is shared). */
+
+/* ---- "CSS Variables (Easiest)": v2 equivalent of the v1 CopilotKitCSSProperties example ---- */
+.my-chat [data-copilotkit] {
+  --primary: #222222;
+}
+
+/* ---- "v2 Design Tokens (shadcn)" ---- */
+[data-copilotkit] {
+  --primary: oklch(0.55 0.22 264); /* accent / action color */
+  --primary-foreground: oklch(0.99 0 0); /* text on primary */
+  --background: oklch(1 0 0); /* surface background */
+  --foreground: oklch(0.145 0 0); /* primary text */
+  --muted: oklch(0.97 0 0); /* subtle backgrounds */
+  --border: oklch(0.922 0 0); /* dividers, outlines */
+  --radius: 0.625rem; /* global corner radius */
+}
+
+/* Dark mode is keyed off a `.dark` ancestor */
+.dark [data-copilotkit] {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --border: oklch(0.269 0 0);
+}
+
+/* ---- "Custom CSS" ---- */
+.copilotKitButton {
+  border-radius: 0;
+}
+
+.copilotKitMessages {
+  padding: 2rem;
+}
+
+.copilotKitUserMessage {
+  background: #007AFF;
+}
+
+/* ---- "Custom Fonts" ---- */
+.copilotKitMessages {
+  font-family: Arial, sans-serif;
+}
+
+.copilotKitInput {
+  font-family: Arial, sans-serif;
+}
