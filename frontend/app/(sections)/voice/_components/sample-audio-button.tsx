@@ -1,17 +1,10 @@
 "use client";
 // Docs: voice -> "Driving the demo without a mic" (src/app/demos/voice/sample-audio-button.tsx).
 // The component is verbatim from the docs.
-// Demo code (showcase voice/sample-audio-button.tsx): the `SampleAudioButtonProps` interface,
-// used by the docs but not defined there.
+// Added (needed to compile): the `SampleAudioButtonProps` type, used by the docs but not defined.
 
-export interface SampleAudioButtonProps {
-  /** Called with the canned sample text when the button is clicked. */
+interface SampleAudioButtonProps {
   onTranscribed: (text: string) => void;
-  /**
-   * Phrase injected into the composer when the button is clicked. Used as
-   * the tooltip so users can preview what the sample says without taking
-   * up visual space on the page.
-   */
   sampleText: string;
 }
 
