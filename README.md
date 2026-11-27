@@ -4,7 +4,7 @@ There is one git branch per docs page. Each branch holds only that page's integr
 
 ## Run (same on `main` and on any section branch)
 ```bash
-cp .env.example .env      # once: set OPENAI_API_KEY (and CPK_INTELLIGENCE_API_KEY for the threads sections)
+cp .env.example .env      # once: set OPENAI_API_KEY (+ CPK_INTELLIGENCE_API_KEY for threads, OPENAI_TRANSCRIPTION_API_KEY for voice)
 npm install               # once (every branch shares the same lockfile)
 npm run dev               # agent on :8000, frontend on :3000
 ```
@@ -67,3 +67,5 @@ Each section's README lists its status, adaptations, demo code or stubs, known i
 ## Scaffold notes
 - `frontend/` is from `create-next-app@latest` (Next 16). **`cacheComponents` is disabled** in `next.config.ts` (along with `partialPrefetching`, which requires it). With it on, `<CopilotKit>` fails with "unstable value `randomUUID()` in a Client Component" on every page.
 - The docs pin `@ag-ui/client@1.0.2`, but `@copilotkit/runtime@1.90.2` uses 1.0.5. Every runtime route therefore shows a type error (`HttpAgent` vs `AbstractAgent`), though it works at runtime. This is left as is; see the [quickstart README](frontend/app/(sections)/quickstart/README.md).
+- `@hashbrownai/core` and `@hashbrownai/react` are pinned to `0.5.0-beta.4`, the version the hashbrown page names; the latest (0.8.x) removed APIs the snippets use. `recharts` and `radix-ui` are direct dependencies because the docs and the copied demo components import them.
+- **On `main`, open each section by its URL (a full page load).** Two sections change global page state when you click from one section to the next: look-css loads unscoped CSS, and genui-components-theming puts a `dark` class on `<html>`. That state stays until you reload. Running a section on its own branch avoids this.
