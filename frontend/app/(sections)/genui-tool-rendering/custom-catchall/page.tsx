@@ -1,10 +1,7 @@
 "use client";
-// Docs: tool-rendering -> "Custom catch-all" (src/app/demos/tool-rendering-custom-catchall/page.tsx).
-// The docs give only the hook call. Host (CopilotKit + Chat + CopilotChat) and imports: from the
-// same demo page, minus its layout divs and suggestions. Adaptations: runtimeUrl + agent ->
-// genui-tool-rendering; renderer import path -> ../_components/custom-catchall-renderer.
+// Docs: tool-rendering -> "Custom catch-all". The docs give only the hook call;
+// minimal host: <CopilotKit> -> Chat -> <CopilotChat>. Adaptation: runtimeUrl + agent -> genui-tool-rendering.
 
-import React from "react";
 import {
   CopilotKit,
   CopilotChat,
