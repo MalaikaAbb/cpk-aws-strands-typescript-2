@@ -3,10 +3,9 @@
 // The docs put <CopilotKit> in the page, so it stays here (no section layout provider).
 // Adaptations: runtimeUrl -> /api/copilotkit/genui-reasoning;
 // AGENT_ID "reasoning-default" -> "genui-reasoning".
-// Demo code (showcase reasoning-default/page.tsx): the imports.
+// Added (needed): the imports (from the demo). The docs' `useReasoningDefaultSuggestions()` call is removed.
 
 import { CopilotKit, CopilotChat } from "@copilotkit/react-core/v2";
-import { useReasoningDefaultSuggestions } from "./_components/default-suggestions";
 
 const AGENT_ID = "genui-reasoning";
 
@@ -23,6 +22,5 @@ export default function ReasoningDefaultDemo() {
 }
 
 function Chat() {
-  useReasoningDefaultSuggestions();
   return <CopilotChat agentId={AGENT_ID} className="h-full rounded-2xl" />;
 }

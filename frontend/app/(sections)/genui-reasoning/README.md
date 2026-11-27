@@ -5,7 +5,7 @@
 - http://localhost:3000/genui-reasoning: Default reasoning rendering (zero-config)
 - http://localhost:3000/genui-reasoning/custom: Custom reasoning rendering (`ReasoningBlock`)
 
-**Status:** 🧩 The frontend code is given. The suggestion hooks (and the default page's imports) came from the demo. ⚠️ The page gives no backend code, so this is the plain quickstart agent. It may not stream reasoning (see Open questions). Type-check is clean apart from the known route error.
+**Status:** 🧩 The frontend code is given. Only the default page's imports came from the demo. The docs' suggestions-hook calls were removed. ⚠️ The page gives no backend code, so this is the plain quickstart agent. It may not stream reasoning (see Open questions). Type-check is clean apart from the known route error.
 
 ## Files
 | File | Docs step |
@@ -15,7 +15,6 @@
 | `page.tsx` | Default reasoning rendering (`src/app/demos/reasoning-default/page.tsx`) |
 | `custom/page.tsx` | Custom reasoning rendering: the import block + the `page.tsx` tab |
 | `_components/reasoning-block.tsx` | Custom reasoning rendering: the `reasoning-block.tsx` tab (verbatim) |
-| `_components/default-suggestions.ts`, `_components/custom-suggestions.ts` | Demo: the suggestion hooks |
 
 ## Adaptations
 - `AGENT_ID` `"reasoning-default"` and `"reasoning-custom"` both become `"genui-reasoning"`. `runtimeUrl` becomes `/api/copilotkit/genui-reasoning`.
@@ -24,8 +23,10 @@
 - Intelligence is not used (as in quickstart).
 
 ## Demo code / stubs
-- `useReasoningDefaultSuggestions` and `useReasoningCustomSuggestions` come from showcase `reasoning-default/suggestions.ts` and `reasoning-custom/suggestions.ts`. The docs call them but don't define them.
-- The default page's imports (`CopilotKit`, `CopilotChat`, the suggestions hook) and the custom page's suggestions-hook import come from the showcase pages. The custom page's other imports are the docs' own import block.
+- The default page's imports (`CopilotKit`, `CopilotChat`) come from showcase `reasoning-default/page.tsx`. The docs give none, and the page doesn't compile without them. The custom page uses the docs' own import block.
+
+## Removed (not needed for functionality)
+- `useReasoningDefaultSuggestions()` / `useReasoningCustomSuggestions()`: the docs' snippets call them, but they only add suggestion pills. The calls and the demo `suggestions.ts` files were deleted.
 
 ## Known issues
 - `route.ts`: the known `HttpAgent is missing ... _threadId, _maxEnforcedEntries` error (see the quickstart README). There are no other type errors.
@@ -35,5 +36,5 @@
 - The docs list an `isLatest` prop for the slot component, but `ReasoningBlock` ignores it and computes `isLatest` itself from `messages`.
 
 ## Try these prompts
-Docs give no prompts. The demo suggestion pill (on both routes) is:
+Docs give no prompts. A question that needs reasoning, for example:
 - `Explain step by step why the sky appears blue during the day but red at sunset.`
