@@ -21,6 +21,9 @@
 ## Demo code / stubs
 None. The showcase has no markdown-mode demo.
 
+## Removed (not needed for functionality)
+- The `<main className="h-screen">` wrapper around `<CopilotChat />` in `page.tsx`.
+
 ## Known issues (left as the docs have them)
 - `route.ts`: `Type 'HttpAgent' is missing the following properties from type 'AbstractAgent': _threadId, _maxEnforcedEntries, maxEnforcedEntries` — the known `@ag-ui/client` 1.0.2 vs 1.0.5 issue, see the quickstart README.
 
