@@ -1,5 +1,5 @@
-// Addition (minimal): the docs use `Cart` (`cart.items`, `cart.addItem(productId, quantity)`)
-// without defining it, and the demo has none. A small React-state cart.
+// Minimal addition: the docs use `Cart` (`cart.items`, `cart.addItem(productId, quantity)`)
+// without defining it, and the demo has none.
 import { useState } from "react";
 
 export type Cart = {
@@ -11,14 +11,6 @@ export function useCart(): Cart {
   const [items, setItems] = useState<Cart["items"]>([]);
   return {
     items,
-    addItem: (productId, quantity) =>
-      setItems((current) => {
-        const found = current.find((item) => item.productId === productId);
-        return found
-          ? current.map((item) =>
-              item.productId === productId ? { ...item, quantity: item.quantity + quantity } : item,
-            )
-          : [...current, { productId, quantity }];
-      }),
+    addItem: (productId, quantity) => setItems((current) => [...current, { productId, quantity }]),
   };
 }
