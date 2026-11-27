@@ -4,6 +4,8 @@
 **Route:** http://localhost:3000/shared-state-rendering-in-app (sub-route `/write-back`)
 **Status:** ❌ Likely broken as written. `components/Canvas.tsx` uses `useEffect` and `app/page.tsx` has no `"use client"`, so Next.js should reject the page as a Server Component that uses a client hook. Beyond that, the page gives no agent-side state code, so "Ask the agent to add a task" can't work with the quickstart agent. Everything else was provided.
 
+> ⚠️ **This route breaks every route on `main` until the dev server restarts.** The missing `"use client"` is a *compile* error (`You're importing a module that depends on useEffect into a React Server Component module`). Next keeps the error and returns HTTP 500 for every route, on both Turbopack and webpack, until `npm run dev` is restarted. On `main`, test this section last, or test it on its own branch.
+
 ## Routes
 | Route | Docs section |
 |---|---|
