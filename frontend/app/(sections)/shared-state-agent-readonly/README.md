@@ -2,7 +2,7 @@
 
 **Docs:** https://docs.copilotkit.ai/strands-typescript/shared-state/agent-readonly
 **Route:** http://localhost:3000/shared-state-agent-readonly
-**Status:** 🧩 Demo code was needed. The docs' `page.tsx` imports `DemoLayout`, `ACTIVITIES` and `useReadonlyStateAgentContextSuggestions` without giving them, and stops partway through `DemoContent`. The missing parts come from the demo. Type-checks apart from the usual `HttpAgent` error.
+**Status:** 🧩 Demo code was needed. The docs' `page.tsx` imports `ACTIVITIES` (from the demo's `demo-layout`) and stops partway through `DemoContent`. Only `ACTIVITIES` is kept, and the component is closed with a plain name input. Type-checks apart from the usual `HttpAgent` error.
 
 ## Files
 | File | Docs step |
@@ -10,21 +10,21 @@
 | `agent/sections/shared-state-agent-readonly.ts` | No backend code on the page: the quickstart agent |
 | `frontend/app/api/copilotkit/shared-state-agent-readonly/[[...slug]]/route.ts` | The quickstart runtime (this page doesn't change it) |
 | `page.tsx` | "Wire it to your own state" (`page.tsx` up to the `useState` hooks) + "How it works in code" (the 3 `useAgentContext` calls) |
-| `_components/demo-layout.tsx`, `_components/suggestions.ts` | Demo code: the files the docs' `page.tsx` imports |
-| `_components/{badge,card,checkbox,input,label,select}.tsx` | Demo code used by `DemoLayout` |
+| `_components/demo-layout.tsx` | Demo code: only `ACTIVITIES` |
 
 ## Adaptations
 - The agent is `shared-state-agent-readonly`, replacing `readonly-state-agent-context` in `agent=` and `agentId=`. The runtime URL is `/api/copilotkit/shared-state-agent-readonly`.
-- `<CopilotKit>` stays in the page, as the docs have it.
-- `./demo-layout` and `./suggestions` move to `./_components/`. In `demo-layout.tsx`, `./_components/*` becomes `./*`.
+- `<CopilotKit>` and `<CopilotPopup>` stay in the page, as the docs have them. `./demo-layout` becomes `./_components/demo-layout`.
+- `"use client"` is added, because the page uses `useState`.
+- `DemoContent` is closed with `return <input value={userName} onChange={...} />`. That is the minimum UI needed to change the name, as the docs' "Try it" asks.
 
 ## Demo code / stubs
-All from `showcase/integrations/strands-typescript/src/app/demos/readonly-state-agent-context/`:
-- `page.tsx`: the `"use client"` directive and the end of `DemoContent` after the `useAgentContext` calls (`useReadonlyStateAgentContextSuggestions()`, `toggleActivity`, and the `<DemoLayout ... />` return). The docs snippet ends after the `useState` hooks.
-- `demo-layout.tsx` (`ACTIVITIES`, `TIMEZONES`, `DemoLayout`, `ContextStat`) and `suggestions.ts`. The docs import both.
-- `_components/{badge,card,checkbox,input,label,select}.tsx`, which `DemoLayout` imports.
+- `ACTIVITIES` (from the demo's `demo-layout.tsx`): the docs' `useState` uses it as the initial `recentActivity`.
 
-This is close to the whole demo. The docs import these modules, and `DemoContent` cannot be completed without them.
+## Removed (not needed for functionality)
+- From the docs snippet: the `DemoLayout` import (a demo layout component) and the `useReadonlyStateAgentContextSuggestions` import (a suggestions hook).
+- The demo's `DemoLayout` (identity, activity and JSON cards), `TIMEZONES`, `ContextStat`, `suggestions.ts`, the six shadcn UI components (`badge`, `card`, `checkbox`, `input`, `label`, `select`), and the demo's `toggleActivity`, suggestions call and `<DemoLayout>` return.
+- Because of that, the timezone and recent-activity values are still published to the agent, but have no UI to change them.
 
 ## Known issues (left as the docs have them)
 - `route.ts`: the usual `HttpAgent is missing ... _threadId, _maxEnforcedEntries` type error. See the quickstart README.
@@ -34,5 +34,4 @@ This is close to the whole demo. The docs import these modules, and `DemoContent
 - Is a Strands-specific backend step missing from this page? It refers to "the setup above", but no setup is shown.
 
 ## Try these prompts (from the docs)
-- `What is my name?`: the agent should answer with `userName` (`Atai`). Change the name in the Identity card and ask again: the answer should change.
-- Demo suggestions (from the copied `suggestions.ts`): `What do you know about me from my context?`, `Based on my recent activity, what should I try next?`.
+- `What is my name?`: the agent should answer with `userName` (`Atai`). Change the name in the input and ask again: the answer should change.
