@@ -2,7 +2,7 @@
 
 **Docs:** https://docs.copilotkit.ai/strands-typescript/generative-ui/mcp-apps
 **Route:** http://localhost:3000/genui-mcp-apps
-**Status:** ✅ The runtime `mcpApps` config and the page are as the docs give them. The page snippet is only a function body, so `"use client"`, the imports and the function wrapper come from the demo file it was cut from. The runtime snippet uses an `agents` variable it never defines; it's defined as in quickstart. No type errors in this section.
+**Status:** 🧩 Demo code was needed. The runtime `mcpApps` config and the page are as the docs give them. The page snippet is only a function body, so `"use client"`, the imports and the function wrapper come from the demo file it was cut from. The runtime snippet uses an `agents` variable it never defines; it's defined as in quickstart. No type errors in this section.
 
 ## Files
 | File | Docs step |
