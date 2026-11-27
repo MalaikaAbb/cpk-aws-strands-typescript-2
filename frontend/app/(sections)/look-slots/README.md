@@ -2,7 +2,7 @@
 
 **Docs:** https://docs.copilotkit.ai/strands-typescript/custom-look-and-feel/slots
 **Route:** http://localhost:3000/look-slots (plus the sub-routes below)
-**Status:** ❌ Partly broken. "Two levels deep" uses `CustomToolbar` and `CustomCopyButton`, which neither the docs nor the demo define, so `/look-slots/nested` throws `ReferenceError` on render. 🧩 The "What it looks like in code" snippet only `declare`s its three slot components, so they were copied from the demo. The other examples were provided in full. There are type errors from the docs code (see below).
+**Status:** ❌ Partly broken. "Two levels deep" uses `CustomToolbar` and `CustomCopyButton`, which neither the docs nor the demo define, so `/look-slots/nested` throws `ReferenceError` on render. 🧩 The "What it looks like in code" snippet only `declare`s its three slot components, so minimal plain-JSX versions were written (based on the demo). The other examples were provided in full. There are type errors from the docs code (see below).
 
 ## Routes (one per independent example)
 | Route | Docs section |
@@ -24,7 +24,7 @@
 | `layout.tsx`, `providers.tsx` | No provider code on this page: the quickstart provider |
 | `_components/slot-overrides.tsx` | What it looks like in code (`src/app/demos/chat-slots/slot-overrides.tsx`) |
 | `page.tsx` | Minimal page passing the three extracted slots to `<CopilotChat>` |
-| `_components/slot-wrappers.tsx`, `_components/slot-marker.tsx` | Demo slot components (see below) |
+| `_components/slot-wrappers.tsx` | Minimal slot components the docs use but don't define (see below) |
 | `_components/tailwind-chat.tsx` | Tailwind Classes (verbatim) |
 | `props-override/page.tsx` | Props Override |
 | `_components/custom-components-chat.tsx` | Custom Components (verbatim) |
@@ -43,12 +43,14 @@
 - Intelligence is not used (as quickstart).
 
 ## Demo code / stubs
-From `showcase/integrations/strands-typescript/src/app/demos/chat-slots/`:
-- **`slot-wrappers.tsx`** → `_components/slot-wrappers.tsx`: only `CustomWelcomeScreen` (and `CustomWelcomeMessage`, which it renders), `CustomAssistantMessage`, `CustomDisclaimer` and `CustomUserMessage`. The other demo slot components were not copied, and the imports were trimmed to match.
-- **`slot-marker.tsx`** → `_components/slot-marker.tsx`, verbatim (`SlotMarker`, used by the components above).
-- **`slot-overrides.snippet.tsx`**: the closing `return { welcomeScreen, messageView, input };` and `}`. The docs' longest snippet stops before the end of `ChatSlotsTeachingExtracts()`.
-- In `slot-overrides.tsx`, the docs' `declare const CustomWelcomeScreen / CustomAssistantMessage / CustomDisclaimer: React.ComponentType;` lines are replaced by an import of the demo components. `declare` emits no JavaScript, so as written the three names are undefined at runtime and the page would throw `ReferenceError`. In the demo, this file is marked "Docs-only snippet — not imported or rendered".
-- In `nested-chat.tsx`, `CustomUserMessage` is imported from the demo copy. `CustomToolbar` and `CustomCopyButton` are not in the demo, so they stay undefined.
+- **`_components/slot-wrappers.tsx`**: `CustomWelcomeScreen`, `CustomAssistantMessage`, `CustomDisclaimer` and `CustomUserMessage`. The docs use them but never define them, so the slots have nothing to render without them. Each one is based on the demo's `chat-slots/slot-wrappers.tsx`, reduced to plain JSX: a short text label ("Custom welcome screen", "Custom assistant message", ...) plus the default component, or `input` and `suggestionView` for the welcome screen.
+- **The closing `return { welcomeScreen, messageView, input };` and `}`**, from the demo's `chat-slots/slot-overrides.snippet.tsx`. The docs' longest snippet stops before the end of `ChatSlotsTeachingExtracts()`.
+- In `slot-overrides.tsx`, the docs' `declare const CustomWelcomeScreen / CustomAssistantMessage / CustomDisclaimer: React.ComponentType;` lines are replaced by an import of those components. `declare` emits no JavaScript, so as written the three names are undefined at runtime and the page would throw `ReferenceError`.
+- In `nested-chat.tsx`, `CustomUserMessage` is imported from `slot-wrappers.tsx`. `CustomToolbar` and `CustomCopyButton` are not in the demo, so they stay undefined.
+
+## Removed (not needed for functionality)
+- The demo's `SlotMarker` (`slot-marker.tsx`), with its color table, dashed outlines, copy-to-clipboard badges, Tailwind classes and test IDs.
+- The demo's `CustomWelcomeMessage`, and all styling and `data-testid`s on the slot components.
 
 ## Known issues (left as the docs have them)
 - **`CustomToolbar` and `CustomCopyButton` are undefined** (`_components/nested-chat.tsx`): `error TS2304: Cannot find name 'CustomToolbar'.` and `error TS2304: Cannot find name 'CustomCopyButton'.` At runtime `/look-slots/nested` throws `ReferenceError: CustomToolbar is not defined`.
@@ -57,11 +59,11 @@ From `showcase/integrations/strands-typescript/src/app/demos/chat-slots/`:
 - **Type error in `route.ts`:** `Type 'HttpAgent' is missing the following properties from type 'AbstractAgent': _threadId, _maxEnforcedEntries, maxEnforcedEntries`. This is the known `@ag-ui/client` version mismatch. See the quickstart README.
 
 ## Open questions
-- **The "What it looks like in code" snippet.** It is a teaching extract built on `declare const` placeholders, and it never shows the extracted locals passed to `<CopilotChat>`. The demo's real `page.tsx` uses other wrappers through a `makeSlotOverride` helper. The most literal working reading was used: the snippet's own code, with the placeholders backed by the demo components, and the three locals passed as `<CopilotChat>` props.
+- **The "What it looks like in code" snippet.** It is a teaching extract built on `declare const` placeholders, and it never shows the extracted locals passed to `<CopilotChat>`. The demo's real `page.tsx` uses other wrappers through a `makeSlotOverride` helper. The most literal working reading was used: the snippet's own code, with the placeholders backed by minimal components, and the three locals passed as `<CopilotChat>` props.
 
 ## Try these prompts
 Docs give no prompts. What to check, from the prose (send any message, for example `What can you do?`):
-- `/look-slots`: the welcome screen is a dashed "WelcomeScreen" card that still renders the default input and suggestions. Assistant replies are wrapped in a "MessageView.AssistantMessage" marker. The custom disclaimer stays below the input after the first message.
+- `/look-slots`: the welcome screen shows "Custom welcome screen" above the default input. Each assistant reply is labelled "Custom assistant message". "Custom disclaimer" stays below the input after the first message.
 - `/look-slots/tailwind`: "The message list has a gray background and the input has a blue border."
 - `/look-slots/props-override`: the message view has class `my-custom-messages` and `data-testid="message-view"`, and the input is autofocused.
 - `/look-slots/custom-components`: plain messages, right-aligned for the user, and "Thinking..." while the agent runs.

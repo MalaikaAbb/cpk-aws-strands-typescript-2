@@ -3,7 +3,7 @@
 // cumulatively; this is the longest one (welcome screen + assistant message + disclaimer).
 // Changes, see README:
 // - The docs' three `declare const Custom...: React.ComponentType;` placeholders are replaced by an
-//   import of the real components, copied from the demo (./slot-wrappers.tsx). `declare` emits no
+//   import of minimal versions of those components (./slot-wrappers.tsx). `declare` emits no
 //   code, so without this the names are undefined at runtime.
 // - The docs' snippet stops before the end of the function. The closing
 //   `return { welcomeScreen, messageView, input };` + `}` is from the demo's
