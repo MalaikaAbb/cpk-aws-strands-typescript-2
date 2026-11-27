@@ -1,11 +1,15 @@
 // Docs: frontend-tools -> "Nothing to wire on the agent" (src/agent/agent.ts), verbatim.
 // Adaptation: name "chart_agent" -> "frontend-tools".
-// Imports added: `createModel` (demo model-factory, see that file) and `SYSTEM_PROMPT`
-// (./prompts.ts, the docs' next step); the snippet uses both without importing them.
+// Added (needed): the docs call `createModel()` and use `SYSTEM_PROMPT` without defining or
+// importing them. `createModel` returns the quickstart OpenAIModel; SYSTEM_PROMPT is the
+// docs' ./prompts.ts.
 import { Agent } from "@strands-agents/sdk";
+import { OpenAIModel } from "@strands-agents/sdk/models/openai";
 import { StrandsAgent } from "@ag-ui/aws-strands";
-import { createModel } from "./model-factory.ts";
 import { SYSTEM_PROMPT } from "./prompts.ts";
+
+const createModel = async () =>
+  new OpenAIModel({ apiKey: process.env.OPENAI_API_KEY ?? "", modelId: "gpt-6-luna" });
 
 const strandsAgent = new Agent({
   model: await createModel(),
