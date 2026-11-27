@@ -5,7 +5,6 @@
 // Adaptations: runtimeUrl -> /api/copilotkit/genui-mcp-apps; agent -> "genui-mcp-apps".
 // From the demo (same file): "use client", the imports and the component wrapper, which the docs
 // snippet (a function body only) leaves out.
-import React from "react";
 import { CopilotKit, CopilotChat } from "@copilotkit/react-core/v2";
 
 export default function MCPAppsDemo() {
