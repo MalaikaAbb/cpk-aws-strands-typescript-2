@@ -19,7 +19,10 @@
 - The optional provider options (`allowSameOriginFallback`, `hostContext.availableDisplayModes`, `modelContext`) and the transport examples (`localhost:3101`, `mcp.example.com/sse`) are not wired in. They are optional settings or placeholder servers.
 
 ## Demo code / stubs
-- `page.tsx`: from `showcase/integrations/strands-typescript/src/app/demos/mcp-apps/page.tsx`, the `"use client"` directive, the `React` / `CopilotKit` imports (plus `CopilotChat`) and the `export default function MCPAppsDemo() { ... }` wrapper that the docs snippet (a function body) leaves out.
+- `page.tsx`: from `showcase/integrations/strands-typescript/src/app/demos/mcp-apps/page.tsx`, the `"use client"` directive, the `CopilotKit` import (plus `CopilotChat`) and the `export default function MCPAppsDemo() { ... }` wrapper that the docs snippet (a function body) leaves out.
+
+## Removed (not needed for functionality)
+- The demo page's unused `import React from "react";`.
 
 ## Known issues (left as the docs have them)
 - None from type-check. The docs' `// @ts-ignore` above `agents` hides the known `HttpAgent is missing ... _threadId, _maxEnforcedEntries` error (see the quickstart README), which would otherwise show here.
