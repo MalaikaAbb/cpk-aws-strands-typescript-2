@@ -2,7 +2,7 @@
 
 **Docs:** https://docs.copilotkit.ai/strands-typescript/prebuilt-components/chat-controls
 **Route:** http://localhost:3000/prebuilt-chat-controls (plus the sub-routes below)
-**Status:** ❌ Partly broken. The feedback example uses `analytics`, which neither the docs nor the demo define, so clicking a thumb throws `ReferenceError: analytics is not defined`. The toggle snippet uses `config` without a null check (type error, and a crash wherever the hook returns `null`). The other examples were provided in full. There is no demo for this page.
+**Status:** ❌ Partly broken. The toggle snippet uses `config` without a null check (a type error, and a crash wherever the hook returns `null`). The feedback example's undefined `analytics.track(...)` placeholder is replaced with `console.log(...)`, at the user's request. The other examples were provided in full. There is no demo for this page.
 
 ## Routes (one per independent example)
 | Route | Docs section |
@@ -40,7 +40,7 @@ None. There is no demo for this page. Minimal additions to exercise the snippets
 - `with-provider/page.tsx`: the docs describe the `CopilotChatConfigurationProvider` wrapper in prose only. It was written exactly as the callout says.
 
 ## Known issues (left as the docs have them)
-- **`analytics` is undefined** (`feedback/page.tsx`): `error TS2304: Cannot find name 'analytics'.` (twice). The docs use it as a placeholder for your own analytics client. It isn't in the demo, so it stays undefined. The page renders, and the thumbs should show up (handlers are passed), but clicking one throws `ReferenceError: analytics is not defined`.
+- **`analytics` replaced with `console.log`** (`feedback/page.tsx`): the docs use an undefined `analytics.track("feedback", { messageId, value })` placeholder for your own analytics client. At the user's request it is now `console.log("feedback", { messageId, value })`, so clicking a thumb logs to the browser console instead of throwing.
 - **Toggle snippet has no null check** (`_components/toggle-chat-button.tsx`): `error TS18047: 'config' is possibly 'null'.` (three times). `useCopilotChatConfiguration()` returns `CopilotChatConfigurationValue | null`. If it returns `null` where the button is rendered, the page crashes on render (`Cannot read properties of null (reading 'isModalOpen')`).
 - **Type error in `route.ts`:** `Type 'HttpAgent' is missing the following properties from type 'AbstractAgent': _threadId, _maxEnforcedEntries, maxEnforcedEntries`. This is the known `@ag-ui/client` version mismatch. See the quickstart README.
 
@@ -54,4 +54,4 @@ Docs give no prompts. What to check, from the prose:
 - `/prebuilt-chat-controls/open-button` and `/toggle`: does a button render, and does it open the sidebar?
 - `/prebuilt-chat-controls/with-provider`: **Ask the assistant** and **Open chat / Close chat** should open and close the sidebar.
 - `/prebuilt-chat-controls/default-open`: the sidebar starts closed and can be opened with its launcher.
-- `/prebuilt-chat-controls/feedback`: send any message (for example `Please tell me a joke.`). Thumbs-up and thumbs-down buttons ("Good response" / "Bad response") should appear on the assistant reply. Clicking one throws, because `analytics` is undefined.
+- `/prebuilt-chat-controls/feedback`: send any message (for example `Please tell me a joke.`). Thumbs-up and thumbs-down buttons ("Good response" / "Bad response") should appear on the assistant reply. Clicking one logs `feedback { messageId, value: "up" | "down" }` to the browser console.
