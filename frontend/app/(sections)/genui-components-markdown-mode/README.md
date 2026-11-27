@@ -2,7 +2,7 @@
 
 **Docs:** https://docs.copilotkit.ai/strands-typescript/generative-ui/components/markdown-mode
 **Route:** http://localhost:3000/genui-components-markdown-mode
-**Status:** ✅ Everything the page gives was integrated (the provider config). The page gives no page component and no backend code, so the section uses a bare `<CopilotChat />` and the quickstart agent. ⚠️ The only type error is the known docs `HttpAgent` one.
+**Status:** 🧩 Everything the page gives was integrated (the provider config), plus a minimal page. The page gives no page component and no backend code, so the section uses a bare `<CopilotChat />` and the quickstart agent. ⚠️ The only type error is the known docs `HttpAgent` one.
 
 ## Files
 | File | Docs step |
