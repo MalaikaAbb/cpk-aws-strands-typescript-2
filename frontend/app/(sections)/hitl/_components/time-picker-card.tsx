@@ -1,9 +1,6 @@
-// Demo code: copied from showcase src/app/demos/hitl-in-chat/time-picker-card.tsx. The docs import
-// TimePickerCard and show only its props ("The full file is in the Code view of the demo").
-"use client";
-
-import React, { useState } from "react";
-
+// The docs import TimePickerCard and give only its props (below) and its behaviour:
+// each slot button calls onSubmit({ chosen_time, chosen_label }); "None of these work"
+// calls onSubmit({ cancelled: true }). Minimal unstyled implementation of that.
 export interface TimeSlot {
   label: string;
   iso: string;
@@ -21,90 +18,24 @@ export interface TimePickerCardProps {
   ) => void;
 }
 
-/**
- * Renders a "Book a call" card with a small grid of time slots.
- * The user picks one slot (or cancels); that resolution is forwarded back
- * to the agent via the onSubmit callback wired up by `useHumanInTheLoop`.
- */
-export function TimePickerCard({
-  topic,
-  attendee,
-  slots,
-  status,
-  onSubmit,
-}: TimePickerCardProps) {
-  const [picked, setPicked] = useState<TimeSlot | null>(null);
-  const [cancelled, setCancelled] = useState(false);
-  const disabled = status !== "executing" || picked !== null || cancelled;
-
-  if (cancelled) {
-    return (
-      <div
-        className="rounded-2xl border border-[#DBDBE5] bg-[#F7F7F9] p-4 text-sm text-[#57575B] max-w-md dark:border-border dark:bg-muted dark:text-muted-foreground"
-        data-testid="time-picker-cancelled"
-      >
-        Cancelled — no time picked.
-      </div>
-    );
-  }
-
-  if (picked) {
-    return (
-      <div
-        className="rounded-2xl border border-[#85ECCE4D] bg-[#85ECCE]/10 p-4 max-w-md"
-        data-testid="time-picker-picked"
-      >
-        <p className="text-sm text-[#010507] dark:text-foreground">
-          Booked for <span className="font-semibold">{picked.label}</span>
-        </p>
-      </div>
-    );
-  }
-
+export function TimePickerCard({ topic, attendee, slots, status, onSubmit }: TimePickerCardProps) {
+  const disabled = status !== "executing";
   return (
-    <div
-      className="rounded-2xl border border-[#DBDBE5] bg-white p-5 shadow-sm max-w-md dark:border-border dark:bg-card"
-      data-testid="time-picker-card"
-    >
-      <p className="text-[10px] uppercase tracking-[0.14em] text-[#57575B] font-medium dark:text-muted-foreground">
-        Book a call
-      </p>
-      <h3 className="text-base font-semibold text-[#010507] mt-1.5 dark:text-foreground">
+    <div>
+      <p>
         {topic}
-      </h3>
-      {attendee && (
-        <p className="text-sm text-[#57575B] mt-0.5 dark:text-muted-foreground">
-          With {attendee}
-        </p>
-      )}
-
-      <p className="text-sm text-[#57575B] mt-4 mb-2 dark:text-muted-foreground">
-        Pick a time:
+        {attendee && ` with ${attendee}`}
       </p>
-      <div className="grid grid-cols-2 gap-2">
-        {slots.map((s) => (
-          <button
-            key={s.iso}
-            disabled={disabled}
-            data-testid="time-picker-slot"
-            onClick={() => {
-              setPicked(s);
-              onSubmit({ chosen_time: s.iso, chosen_label: s.label });
-            }}
-            className="rounded-xl border border-[#DBDBE5] bg-white px-3 py-2 text-sm font-medium text-[#010507] hover:border-[#BEC2FF] hover:bg-[#BEC2FF1A] disabled:opacity-50 transition-colors dark:border-border dark:bg-card dark:text-foreground"
-          >
-            {s.label}
-          </button>
-        ))}
-      </div>
-      <button
-        disabled={disabled}
-        onClick={() => {
-          setCancelled(true);
-          onSubmit({ cancelled: true });
-        }}
-        className="mt-3 w-full rounded-xl border border-[#E9E9EF] px-3 py-1.5 text-xs text-[#838389] hover:bg-[#FAFAFC] disabled:opacity-50 transition-colors dark:border-border dark:text-muted-foreground dark:hover:bg-muted"
-      >
+      {slots.map((s) => (
+        <button
+          key={s.iso}
+          disabled={disabled}
+          onClick={() => onSubmit({ chosen_time: s.iso, chosen_label: s.label })}
+        >
+          {s.label}
+        </button>
+      ))}
+      <button disabled={disabled} onClick={() => onSubmit({ cancelled: true })}>
         None of these work
       </button>
     </div>

@@ -1,8 +1,8 @@
 "use client";
 // Docs: human-in-the-loop -> "Pattern 1: useHumanInTheLoop (tool-based)"
 // (src/app/demos/hitl-in-chat/page.tsx). The docs snippet stops after the
-// useHumanInTheLoop(...) call: the Chat function's `return <CopilotChat ... />` and
-// closing `}` are copied from the demo page. "use client" added (hooks + provider).
+// useHumanInTheLoop(...) call: `return <CopilotChat />` and the closing `}` are added.
+// "use client" added. Removed from the docs snippet: the useConfigureSuggestions call + import.
 // Adaptations: runtimeUrl "/api/copilotkit" -> "/api/copilotkit/hitl"; agent / agentId
 // "hitl-in-chat" -> "hitl"; "./time-picker-card" -> "./_components/time-picker-card".
 // <CopilotKit> stays in the page, as in the docs.
@@ -11,7 +11,6 @@ import {
   CopilotKit,
   CopilotChat,
   useHumanInTheLoop,
-  useConfigureSuggestions,
 } from "@copilotkit/react-core/v2";
 import { z } from "zod";
 import type { TimeSlot } from "./_components/time-picker-card";
@@ -37,21 +36,6 @@ export default function HitlInChatDemo() {
 }
 
 function Chat() {
-  useConfigureSuggestions({
-    suggestions: [
-      {
-        title: "Book a call with sales",
-        message:
-          "Please book an intro call with the sales team to discuss pricing.",
-      },
-      {
-        title: "Schedule a 1:1 with Alice",
-        message: "Schedule a 1:1 with Alice next week to review Q2 goals.",
-      },
-    ],
-    available: "always",
-  });
-
   useHumanInTheLoop({
     agentId: "hitl",
     name: "book_call",
@@ -75,7 +59,6 @@ function Chat() {
       />
     ),
   });
-  // --- end of docs snippet; the line below is from the demo page ---
 
-  return <CopilotChat agentId="hitl" className="h-full rounded-2xl" />;
+  return <CopilotChat agentId="hitl" />;
 }
