@@ -6,7 +6,7 @@ import { Agent } from "@strands-agents/sdk";
 import { OpenAIModel } from "@strands-agents/sdk/models/openai";
 import { StrandsAgent } from "@ag-ui/aws-strands";
 import { createStrandsApp } from "@ag-ui/aws-strands/server";
-import { getWeather } from "./_genui-tool-rendering/tools.ts";
+import { getWeather, searchFlights } from "./_genui-tool-rendering/tools.ts";
 
 // Setup your Strands agent
 const model = new OpenAIModel({
@@ -17,7 +17,7 @@ const model = new OpenAIModel({
 const agent = new Agent({
   model,
   systemPrompt: "You are a helpful AI assistant.",
-  tools: [getWeather],
+  tools: [getWeather, searchFlights],
 });
 
 await agent.initialize();
