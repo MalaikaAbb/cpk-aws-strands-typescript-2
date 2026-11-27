@@ -1,12 +1,12 @@
 "use client";
 // Docs: shared-state/agent-readonly -> "Wire it to your own state" (src/app/demos/readonly-state-agent-context/page.tsx)
 // followed by "How it works in code" (the useAgentContext calls, same file).
-// The docs' file stops after the useState hooks. The rest of DemoContent (toggleActivity, the
-// suggestions call and the <DemoLayout> return) is demo code from the same demo page.
-// "use client" from the demo page (the docs snippet starts at the imports).
+// Removed from the docs snippet: the `DemoLayout` import (demo layout) and the
+// `useReadonlyStateAgentContextSuggestions` import (suggestions).
+// The docs' DemoContent stops after the useState hooks; it is closed with a plain name input, so
+// the name can be changed ("Change the name in your UI and ask again").
 // Adaptations: runtimeUrl -> /api/copilotkit/shared-state-agent-readonly; agent/agentId
-// "readonly-state-agent-context" -> "shared-state-agent-readonly"; "./demo-layout" and
-// "./suggestions" -> "./_components/...".
+// "readonly-state-agent-context" -> "shared-state-agent-readonly"; "./demo-layout" -> "./_components/demo-layout".
 import React, { useState } from "react";
 import {
   CopilotKit,
@@ -14,8 +14,7 @@ import {
   useAgentContext,
 } from "@copilotkit/react-core/v2";
 
-import { ACTIVITIES, DemoLayout } from "./_components/demo-layout";
-import { useReadonlyStateAgentContextSuggestions } from "./_components/suggestions";
+import { ACTIVITIES } from "./_components/demo-layout";
 
 export default function ReadonlyStateAgentContextDemo() {
   return (
@@ -41,7 +40,6 @@ function DemoContent() {
     ACTIVITIES[2],
   ]);
 
-  // Docs: "How it works in code".
   useAgentContext({
     description: "The currently logged-in user's display name",
     value: userName,
@@ -55,25 +53,5 @@ function DemoContent() {
     value: recentActivity,
   });
 
-  // ---- Demo code (same demo page): not in the docs ----
-  useReadonlyStateAgentContextSuggestions();
-
-  const toggleActivity = (activity: string) => {
-    setRecentActivity((prev) =>
-      prev.includes(activity)
-        ? prev.filter((a) => a !== activity)
-        : [...prev, activity],
-    );
-  };
-
-  return (
-    <DemoLayout
-      userName={userName}
-      userTimezone={userTimezone}
-      recentActivity={recentActivity}
-      onUserNameChange={setUserName}
-      onUserTimezoneChange={setUserTimezone}
-      onToggleActivity={toggleActivity}
-    />
-  );
+  return <input value={userName} onChange={(e) => setUserName(e.target.value)} />;
 }
