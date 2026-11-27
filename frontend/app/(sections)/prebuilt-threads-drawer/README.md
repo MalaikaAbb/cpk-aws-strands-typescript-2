@@ -2,7 +2,7 @@
 
 **Docs:** https://docs.copilotkit.ai/strands-typescript/prebuilt-components/copilot-threads-drawer (+ Intelligence from https://docs.copilotkit.ai/strands-typescript/intelligence/quickstart)
 **Route:** http://localhost:3000/prebuilt-threads-drawer (with sub-routes, see below)
-**Status:** 🧩 A stand-in was needed. The Intelligence quickstart's `authenticateApplicationUser` is undefined (and not in the demo), so a fixed local identity was written, following the docs' prose. A `YourMainContent` placeholder was also needed. ❌ The header-slot example does not type-check: `CopilotThreadsDrawer` accepts no `children`.
+**Status:** 🧩 A stand-in was needed. The Intelligence quickstart's `authenticateApplicationUser` is undefined (and not in the demo), so a fixed local identity was written, following the docs' prose. ❌ The header-slot example does not type-check: `CopilotThreadsDrawer` accepts no `children`.
 
 Needs `CPK_INTELLIGENCE_API_KEY` in the root `.env`.
 
@@ -23,7 +23,6 @@ Needs `CPK_INTELLIGENCE_API_KEY` in the root `.env`.
 | `frontend/app/api/copilotkit/prebuilt-threads-drawer/[[...slug]]/route.ts` | Intelligence quickstart: "Connect your runtime" + "Mount the TypeScript handler" (GET/POST/PATCH/DELETE) |
 | `page.tsx`, `sidebar/`, `new-conversation-button/`, `controlled/`, `header-slot/` | One per snippet, as listed under Routes |
 | `own-button-only/page.tsx`, `_components/hide-new-thread-controls.css` | The CSS `::part()` snippet |
-| `_components/your-main-content.tsx` | Placeholder for `<YourMainContent />` |
 
 ## Adaptations
 - The runtime agent key is `prebuilt-threads-drawer`, and the runtime URL is `/api/copilotkit/prebuilt-threads-drawer`. The docs pass no agent anywhere, so the drawer and chat would resolve to `"default"`. `agentId="prebuilt-threads-drawer"` is set on `<CopilotKitProvider>`, which is step 3 of the docs' "Which agent's threads the drawer shows".
@@ -37,8 +36,10 @@ Needs `CPK_INTELLIGENCE_API_KEY` in the root `.env`.
 ## Demo code / stubs
 - The demo has no Intelligence/threads code.
 - `authenticateApplicationUser(request)` (in `route.ts`) is not defined by the docs. It "represents your server-side authentication function". Following the docs' line "A fixed identity is suitable only for a local, single-user demo", it returns `{ id: "local-user", name: "Local user" }`.
-- `YourMainContent` (sidebar example) is a placeholder that renders `<h1>Your App</h1>`.
 - Imports completed: `useState` from `react` and the v2 components in `controlled/page.tsx`.
+
+## Removed (not needed for functionality)
+- The docs' `<YourMainContent />` line in the sidebar example, and the placeholder component written for it.
 
 ## Known issues (left as the docs have them)
 - `header-slot/page.tsx`: `error TS2559: Type '{ children: Element; }' has no properties in common with type 'IntrinsicAttributes & CopilotThreadsDrawerProps'.` The docs' slot example passes children, which the React wrapper's props type doesn't declare. It may still work at runtime (or the children may be dropped).
