@@ -1,17 +1,16 @@
 # look-css
 
 **Docs:** https://docs.copilotkit.ai/strands-typescript/custom-look-and-feel/css
-**Route:** http://localhost:3000/look-css (plus `/look-css/my-chat` and `/look-css/labels`)
-**Status:** 🧩 The docs' `theme.css` snippets use `--halcyon-*` variables they never define. The definitions were copied from the demo. The page markup around `<CopilotChat>` is described but not given, so a minimal wrapper was added. ⚠️ One type error, caused by the docs (see below).
+**Route:** http://localhost:3000/look-css (plus `/look-css/labels`)
+**Status:** ❌ The `theme.css` snippets have no visible effect as given. Every rule is scoped under `.chat-css-demo-scope`, and the docs never show the markup that adds that class. Their `--halcyon-*` variables are also never defined. The `globals.css` snippets and Custom Labels work as given. ⚠️ One type error, caused by the docs (see below).
 
 ## Routes
 | Route | Docs section |
 |---|---|
-| `/look-css` | Scoping the theme + the two `theme.css` snippets (CSS variables, user message bubble), on a `<CopilotChat />` inside `.chat-css-demo-scope` |
-| `/look-css/my-chat` | The v2 `.my-chat [data-copilotkit] { --primary: #222222; }` rule, on a `<CopilotSidebar />` inside `.my-chat` |
+| `/look-css` | Scoping the theme (`import "./theme.css";`) on a `<CopilotChat />` |
 | `/look-css/labels` | Custom Labels |
 
-The section `globals.css` (every `globals.css` snippet) is loaded by the section layout, so it applies on all three routes.
+The section `globals.css` (every `globals.css` snippet) is loaded by the section layout, so it applies on both routes.
 
 ## Files
 | File | Docs step |
@@ -19,10 +18,9 @@ The section `globals.css` (every `globals.css` snippet) is loaded by the section
 | `agent/sections/look-css.ts` | No backend code on this page: the shared quickstart agent |
 | `frontend/app/api/copilotkit/look-css/[[...slug]]/route.ts` | No runtime changes on this page: the quickstart runtime route |
 | `layout.tsx`, `providers.tsx` | No provider code on this page: the quickstart provider. `layout.tsx` also imports the section `globals.css` |
-| `page.tsx` | Scoping the theme (`import "./theme.css";`) |
-| `theme.css` | `theme.css` snippets from "CSS Variables (Easiest)" and "Custom CSS" (verbatim), plus the demo's `--halcyon-*` token block |
+| `page.tsx` | Scoping the theme (`import "./theme.css";`), plus a `<CopilotChat />` to style |
+| `theme.css` | The `theme.css` snippets from "CSS Variables (Easiest)" and "Custom CSS" (verbatim) |
 | `globals.css` | All `globals.css` snippets, in page order: the v2 `.my-chat` rule, v2 design tokens (light + `.dark`), Custom CSS classes, Custom Fonts |
-| `my-chat/page.tsx` | The `.my-chat` wrapper for the v2 `--primary` rule |
 | `labels/page.tsx` | Custom Labels (verbatim) |
 
 ## Adaptations
@@ -37,20 +35,24 @@ The page marks these as v1-only (`@copilotkit/react-ui`, deprecated), so they we
 - The Custom Icons `icons` prop example ("The v2 components have no `icons` prop").
 
 ## Demo code / stubs
-- The `.chat-css-demo-scope { --halcyon-*: … }` token block (light mode, `@region[design-tokens]`) from `showcase/integrations/strands-typescript/src/app/demos/chat-customization-css/theme.css`, copied to the top of `theme.css`. Without it every `var(--halcyon-*)` in the docs' snippets resolves to nothing. The demo's Google Fonts `@import` was not copied, so `--halcyon-mono` falls back to the system monospace font.
-- Minimal additions: the `.chat-css-demo-scope` wrapper div + `<CopilotChat />` in `page.tsx` (the docs describe "the wrapper div holding `<CopilotChat>`" but show only the import line), and the `.my-chat` wrapper + `<CopilotSidebar />` in `my-chat/page.tsx` (taken from the v1 example's markup, without its v1 `style`).
+None. The only addition is the `<CopilotChat />` in `page.tsx`, so the CSS has a chat to style.
+
+## Removed (not needed for functionality)
+- The demo's `--halcyon-*` token block, copied from `chat-customization-css/theme.css`. The docs' `var(--halcyon-*)` references are now undefined, as the docs leave them.
+- The `.chat-css-demo-scope` wrapper div around `<CopilotChat />`.
+- The `/look-css/my-chat` route, which was only a `.my-chat` wrapper div (not from the docs) around `<CopilotSidebar />`. Without the wrapper the `.my-chat [data-copilotkit]` rule in `globals.css` matches nothing.
 
 ## Known issues (left as the docs have them)
+- **The `theme.css` rules match nothing.** Every selector starts with `.chat-css-demo-scope`. The docs say the demo applies them "only to the wrapper div holding `<CopilotChat>`", but they never give that div, so nothing on the page carries the class. The rules also use `--halcyon-*` variables that the docs never define.
+- **The `.my-chat [data-copilotkit]` rule matches nothing.** The docs give no `.my-chat` element.
 - **Type error in `route.ts`:** `Type 'HttpAgent' is missing the following properties from type 'AbstractAgent': _threadId, _maxEnforcedEntries, maxEnforcedEntries`. This is the known `@ag-ui/client` version mismatch. See the quickstart README.
 - The section CSS files are global stylesheets once loaded (Next.js does not unload route CSS). After visiting this section, the unscoped `globals.css` rules (`[data-copilotkit]`, `.copilotKitMessages`, ...) can also affect other sections until a full page reload. This only matters when testing on `main`.
 
 ## Open questions
-- **Two user-bubble rules compete.** The `globals.css` "Custom CSS" snippet sets `.copilotKitUserMessage { background: #007AFF; }`, while the `theme.css` snippet sets `.chat-css-demo-scope .copilotKitMessage.copilotKitUserMessage { background: transparent; }`. On `/look-css`, the more specific `theme.css` rule should win. The page doesn't say whether the two are meant to be used together. Both were implemented because both are on the page.
 - **The global `[data-copilotkit]` token block vs CopilotKit's own.** The docs say CopilotKit declares each token on the `[data-copilotkit]` element, which is the same selector and specificity as the docs' override. Whether the override wins depends on stylesheet order (the root layout loads CopilotKit's `styles.css` first).
 
 ## Try these prompts
-Docs give no prompts. What to check, from the prose:
-- `/look-css`: send any message (for example `Please tell me a joke.`). The chat should use the warm paper and ember palette, square corners (`--radius: 0px`), and the user bubble should be a mono "→" card with an ember left border.
-- `/look-css/my-chat`: primary-colored elements of the sidebar should be `#222222`.
+Docs give no prompts. What to check, from the prose (send any message, for example `Please tell me a joke.`):
+- Both routes: the `globals.css` v2 tokens (blue-violet `--primary`, `0.625rem` radius), Arial in messages and input, `2rem` padding on the message list, and a `#007AFF` user message (Custom CSS / Custom Fonts).
+- `/look-css`: the `theme.css` palette is not expected to appear (see Known issues).
 - `/look-css/labels`: the welcome text reads "Hello! How can I help you today?" and the input placeholder "Ask me anything!".
-- All routes: messages and input use Arial, and the message list has `2rem` padding (Custom CSS / Custom Fonts).
