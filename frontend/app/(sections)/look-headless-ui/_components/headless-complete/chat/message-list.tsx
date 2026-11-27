@@ -3,9 +3,8 @@
 // (src/app/demos/headless-complete/chat/message-list.tsx). The hook block and the
 // `messages.map` block are verbatim from the docs ("Tool-call composition" is the inner
 // part of "Per-role dispatch").
-// Demo code (showcase headless-complete/chat/message-list.tsx): the imports and the
-// `MessageList({ messages })` function signature / fragment wrapper. Paths adjusted:
-// the docs put UserBubble in message-assistant.tsx, so it is imported from there.
+// Added (needed, from the demo): the imports and the `MessageList({ messages })` wrapper.
+// The docs put UserBubble in message-assistant.tsx, so it is imported from there.
 
 import React, { useMemo } from "react";
 import {

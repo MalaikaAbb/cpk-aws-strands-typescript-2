@@ -2,9 +2,8 @@
 // Docs: headless-ui -> "Bubble chrome" (src/app/demos/headless-complete/chat/message-assistant.tsx).
 // The component code below the imports is verbatim from the docs (the docs put both
 // AssistantBubble and UserBubble in this one file).
-// Demo code (showcase headless-complete/chat/message-assistant.tsx + message-user.tsx):
-// the imports and the local `MultimodalPart` type. Import paths adjusted.
-// Well-known package imports: React, react-markdown, remark-gfm, lucide-react.
+// Added (needed to compile): the imports and the `MultimodalPart` type (from the demo).
+// Avatar, cn and AttachmentChip are minimal local stand-ins.
 
 import React from "react";
 import ReactMarkdown from "react-markdown";
@@ -15,7 +14,6 @@ import { Avatar, AvatarFallback } from "../../ui/avatar";
 import { cn } from "../../../_lib/utils";
 import { AttachmentChip } from "../attachments/attachment-preview";
 
-// Demo code: from showcase headless-complete/chat/message-user.tsx.
 type MultimodalPart =
   | { type: "text"; text: string }
   | {
