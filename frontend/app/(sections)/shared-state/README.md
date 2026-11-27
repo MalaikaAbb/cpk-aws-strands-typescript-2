@@ -2,7 +2,7 @@
 
 **Docs:** https://docs.copilotkit.ai/strands-typescript/shared-state
 **Route:** http://localhost:3000/shared-state (sub-route `/shared-state/run-now`)
-**Status:** ❌ Broken. The docs' `ShowcaseStrandsAgent extends BoardStateStrandsAgent`. `BoardStateStrandsAgent` is a demo class, and it imports `manageTodosImpl`/`BoardTodo` from the demo's `shared-tools/todos`, which is a dangling symlink in the demo source. So the agent module fails to load (`ERR_MODULE_NOT_FOUND`), and the chat on this page has no agent. 🧩 Several other demo pieces were needed (see below).
+**Status:** 🧩 Demo code needed. The docs' `ShowcaseStrandsAgent extends BoardStateStrandsAgent`, a demo class that isn't documented. It and its dependency `manageTodosImpl`/`BoardTodo` (the demo's `shared/typescript/tools/todos.ts`) were copied from the demo, and the agent now loads. Several other demo pieces were needed (see below).
 
 ## Routes
 | Route | Docs section |
@@ -36,7 +36,7 @@
 ## Demo code / stubs
 From `showcase/integrations/strands-typescript/src/`:
 - `agent/state.ts`: `parseToolInput` and `formatPreferencesBlock`. The docs use them without defining them.
-- `agent/todo-state-sync.ts`: `BoardStateStrandsAgent` (with its `syncBoardTodos` plugin and `requestedTodos` store). Its own import `manageTodosImpl`/`BoardTodo` from `../../shared-tools/todos` points to `showcase/shared/typescript/tools`, which is not in the demo source. It is left unresolved as `./shared-tools/todos.ts`.
+- `agent/todo-state-sync.ts`: `BoardStateStrandsAgent` (with its `syncBoardTodos` plugin and `requestedTodos` store). Its own import of `manageTodosImpl`/`BoardTodo` (`../../shared-tools/todos`, a symlink to `showcase/shared/typescript/tools/todos.ts`) is copied verbatim to `agent/sections/_shared-state/shared-tools/todos.ts`.
 - `agent/tools.ts`: `setNotes` (the `set_notes` tool the docs name but never define).
 - `app/demos/shared-state-read-write/page.tsx`: the imports, `RWAgentState`, `INITIAL_PREFERENCES`, the `agentState`/`preferences`/`notes` derivation, and `handleClearNotes`. These are used by the docs fragments or by `NotesCard`'s `onClear`.
 - `app/demos/shared-state-read-write/notes-card.tsx`: the imports and `NotesCardProps`.
@@ -48,7 +48,7 @@ Allowed additions: `PreferencesEditor` (a name input + a language select, becaus
 Imports completed: `RunAgentInput` (`@ag-ui/core`), `ToolCallContext`/`StatePayload` (`@ag-ui/aws-strands`), `tool` and `z`, and `useAgent`/`UseAgentUpdate`/`useCopilotKit`/`CopilotSidebar`.
 
 ## Known issues (left as the docs have them)
-- **Agent doesn't load:** `sections/_shared-state/todo-state-sync.ts(12,33): error TS2307: Cannot find module './shared-tools/todos.ts' or its corresponding type declarations.` (and line 13). The smoke import fails with `ERR_MODULE_NOT_FOUND`. The cause: the docs subclass an undocumented demo class (`BoardStateStrandsAgent`, a sales-board sync) whose dependency isn't available. Because the agent tsc fails, `npm run typecheck` stops before the frontend check on this branch. Run `cd frontend && npx tsc --noEmit` to see the frontend errors.
+- The docs subclass an undocumented demo class (`BoardStateStrandsAgent`, a sales-board sync). The page works only because that class and its `todos` dependency were copied from the demo.
 - `run-now/page.tsx`: `error TS2322: Type '...@copilotkit/runtime/node_modules/@ag-ui/client...AbstractAgent' is not assignable to type '...@copilotkit/shared/node_modules/@ag-ui/client...AbstractAgent'. Types have separate declarations of a private property '_threadId'.` This is the same `@ag-ui/client` version split as the `HttpAgent` error, at `copilotkit.runAgent({ agent })`.
 - `route.ts`: the usual `HttpAgent is missing ... _threadId, _maxEnforcedEntries` type error. See the quickstart README.
 - The `handlePreferencesChange` comment mentions `PreferencesInjectorMiddleware`, which is not what the Strands code does (`withStateContext` does). The comment is left as written.
