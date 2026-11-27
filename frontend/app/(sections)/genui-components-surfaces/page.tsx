@@ -26,7 +26,7 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
 export default function Page() {
   const product = sampleProducts[0];
   return (
-    <main>
+    <>
       <FeaturedProducts products={sampleProducts} />
       <GenerativeUISurface id="sidebar-notes" autoScroll={false} />
       <GenerativeUISurface
@@ -35,6 +35,6 @@ export default function Page() {
         description={`The "You might also like" row under ${product.name}. Show related products here. Never include ${product.name} itself.`}
       />
       <CopilotChat />
-    </main>
+    </>
   );
 }
