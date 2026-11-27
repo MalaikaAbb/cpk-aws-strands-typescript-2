@@ -1,9 +1,7 @@
 "use client";
 // Docs: dynamic-schema -> "Implement the React renderers" (src/app/demos/declarative-gen-ui/a2ui/renderers.tsx).
-// The docs snippet starts at `export const myRenderers` with no imports and none of the helpers it
-// uses. Everything above the "Docs snippet" marker is copied from the demo file of the same name
-// (imports, theme tokens `c`, `tooltipStyle`, `barCursor`, `CHART_COLORS`, `CardShell`), with the
-// `_components` paths adjusted.
+// The docs snippet has no imports and uses names it never defines. The imports are the demo's;
+// the helpers are minimal stand-ins, so the snippet runs ("Use your own components in their place").
 import React from "react";
 import {
   PieChart as RechartsPieChart,
@@ -21,42 +19,17 @@ import type { CatalogRenderers } from "@copilotkit/a2ui-renderer";
 import { TriangleAlert, CircleAlert, CircleCheck, Info } from "lucide-react";
 
 import type { MyDefinitions } from "./definitions";
-import { Badge } from "../../_components/badge";
-import { Button } from "../../_components/button";
 
-// ─── Theme tokens + palette (mirrors beautiful-chat) ────────────────────────
-const c = {
-  card: "var(--card)",
-  cardFg: "var(--card-foreground)",
-  border: "var(--border)",
-  muted: "var(--muted-foreground)",
-  divider: "color-mix(in srgb, var(--border) 50%, var(--card))",
-  shadow: "0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04)",
-};
+// Theme tokens and chart styles the snippet reads: left empty (no styling).
+const c: Record<string, string> = {};
+const tooltipStyle = undefined;
+const barCursor = undefined;
+// Pie slice colors (each slice needs a fill to be told apart).
+const CHART_COLORS = ["blue", "orange", "green", "red", "purple"];
 
-// Recharts' default tooltip is #fff / #ccc and its bar hover cursor is #ccc;
-// keep those in light mode and follow the theme tokens in dark mode.
-const tooltipStyle = {
-  backgroundColor: "light-dark(#fff, var(--card))",
-  border: "1px solid light-dark(#ccc, var(--border))",
-};
-const barCursor = { fill: "light-dark(#ccc, var(--accent))" };
-
-const CHART_COLORS = [
-  "#3b82f6", // blue-500
-  "#8b5cf6", // violet-500
-  "#ec4899", // pink-500
-  "#f59e0b", // amber-500
-  "#10b981", // emerald-500
-  "#6366f1", // indigo-500
-] as const;
-
-/** DashboardCard-style chrome shared by Card and the chart wrappers. */
 function CardShell({
   title,
   subtitle,
-  testid,
-  cardId,
   children,
 }: {
   title: string;
@@ -66,38 +39,23 @@ function CardShell({
   children?: React.ReactNode;
 }) {
   return (
-    <div
-      data-testid={testid}
-      data-card-id={cardId}
-      style={{
-        background: c.card,
-        borderRadius: "12px",
-        border: `1px solid ${c.border}`,
-        padding: "20px",
-        boxShadow: c.shadow,
-        display: "flex",
-        flexDirection: "column",
-        gap: "12px",
-        width: "100%",
-        minWidth: 0,
-        overflow: "hidden",
-      }}
-    >
-      <div>
-        <div style={{ fontWeight: 600, fontSize: "0.9rem", color: c.cardFg }}>
-          {title}
-        </div>
-        {subtitle && (
-          <div
-            style={{ fontSize: "0.75rem", color: c.muted, marginTop: "2px" }}
-          >
-            {subtitle}
-          </div>
-        )}
-      </div>
+    <div>
+      <b>{title}</b>
+      {subtitle && <div>{subtitle}</div>}
       {children}
     </div>
   );
+}
+
+function Badge({
+  variant: _variant,
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement> & { variant?: string }) {
+  return <span {...props} />;
+}
+
+function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return <button {...props} />;
 }
 
 // ─── Docs snippet (verbatim) ────────────────────────────────────────────────
